@@ -121,3 +121,7 @@ Proyek ini dilisensikan di bawah **MIT License** - lihat file [LICENSE](LICENSE)
 ---
 
 🦉 *Tetap Fokus, Kurangi Screen Time, dan Raih Produktivitas Terbaik Anda Bersama **ReFocus**!*
+
+---
+
+Dibuat dengan 💙 dan segelas matcha untuk membantu Anda tetap fokus.
