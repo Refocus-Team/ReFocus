@@ -311,7 +311,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 // App Logo
                 Image.asset(
                   'assets/logo-refocus.png',
-                  height: 80,
+                  height: 40,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
                     return const Text(
