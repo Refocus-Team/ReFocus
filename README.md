@@ -116,7 +116,7 @@ flutter test
 
 ## 📝 Lisensi
 
-Proyek ini dilisensikan di bawah *namamu aja lah* License - lihat file LICENSE untuk detail lebih lanjut.
+Proyek ini dilisensikan di bawah *namamu aja lah* License.
 
 ---
 
