@@ -91,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   children: [
                     Image.asset(
                       'assets/logo-refocus.png',
-                      height: 75,
+                      height: 55,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) => const Text(
                         'ReFocus',
