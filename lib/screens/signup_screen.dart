@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_state.dart';
 import '../services/auth_service.dart';
 
@@ -52,6 +53,11 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       );
     } else {
+      // Save session inside SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+      await prefs.setString('loggedInUserName', _nameController.text.trim());
+
       // Update global AppState username
       final state = AppStateProvider.of(context);
       state.updateUserName(_nameController.text.trim());
@@ -70,6 +76,223 @@ class _SignupScreenState extends State<SignupScreen> {
         (route) => false,
       );
     }
+  }
+
+  void _showSocialLinkDialog(String provider) {
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    bool isLinking = false;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(color: Color(0xFF204A94), width: 1.5),
+              ),
+              title: Row(
+                children: [
+                  Image.asset(
+                    provider == 'Google' ? 'assets/google-icon.png' : 'assets/apple-icon.png',
+                    height: 24,
+                    width: 24,
+                    errorBuilder: (context, error, stackTrace) => Icon(
+                      provider == 'Google' ? Icons.g_mobiledata : Icons.apple,
+                      color: provider == 'Google' ? Colors.red : Colors.black,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Daftar via $provider',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1B2755),
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              content: Form(
+                key: formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Silakan isi data akun ReFocus baru Anda yang ingin dihubungkan.',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Nama Lengkap',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF204A94)),
+                      ),
+                      const SizedBox(height: 6),
+                      TextFormField(
+                        controller: nameController,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Nama wajib diisi';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Nama lengkap Anda',
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Color(0xFFA5C0DD)),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Email',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF204A94)),
+                      ),
+                      const SizedBox(height: 6),
+                      TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Email wajib diisi';
+                          }
+                          final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                          if (!emailRegex.hasMatch(value.trim())) {
+                            return 'Format email tidak valid';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Email Anda',
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Color(0xFFA5C0DD)),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Password Baru',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF204A94)),
+                      ),
+                      const SizedBox(height: 6),
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password wajib diisi';
+                          }
+                          if (value.length < 6) {
+                            return 'Password minimal 6 karakter';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Password minimal 6 karakter',
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Color(0xFFA5C0DD)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: isLinking ? null : () => Navigator.pop(context),
+                  child: const Text('Batal', style: TextStyle(color: Colors.grey)),
+                ),
+                ElevatedButton(
+                  onPressed: isLinking
+                      ? null
+                      : () async {
+                          if (!formKey.currentState!.validate()) return;
+                          setDialogState(() {
+                            isLinking = true;
+                          });
+
+                          // Simulating registration verification
+                          await Future.delayed(const Duration(milliseconds: 600));
+
+                          final error = await AuthService.signUp(
+                            nameController.text.trim(),
+                            emailController.text.trim(),
+                            passwordController.text,
+                          );
+
+                          if (error == null) {
+                            // Link and login successful
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setBool('isLoggedIn', true);
+                            await prefs.setString('loggedInUserName', nameController.text.trim());
+
+                            if (mounted) {
+                              final state = AppStateProvider.of(context);
+                              state.updateUserName(nameController.text.trim());
+                            }
+
+                            if (!context.mounted) return;
+                            Navigator.pop(context); // close dialog
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Pendaftaran & penghubungan akun $provider berhasil! Selamat datang, ${nameController.text.trim()}!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/permission',
+                              (route) => false,
+                            );
+                          } else {
+                            setDialogState(() {
+                              isLinking = false;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(error),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF204A94),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  child: isLinking
+                      ? const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 1.5),
+                        )
+                      : const Text('Daftar & Hubungkan'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -328,7 +551,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         children: [
                           Expanded(
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: _isLoading
+                                  ? null
+                                  : () => _showSocialLinkDialog('Google'),
                               child: Container(
                                 height: 52,
                                 decoration: BoxDecoration(
@@ -355,7 +580,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           const SizedBox(width: 16),
                           Expanded(
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: _isLoading
+                                  ? null
+                                  : () => _showSocialLinkDialog('Apple'),
                               child: Container(
                                 height: 52,
                                 decoration: BoxDecoration(

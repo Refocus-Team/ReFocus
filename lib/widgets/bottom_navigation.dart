@@ -14,10 +14,8 @@ class BottomNavigation extends StatelessWidget {
       {'label': 'Profile', 'icon': 'nav-profile.png', 'route': '/profile'},
     ];
 
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
+    return SafeArea(
+      bottom: false,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -35,7 +33,7 @@ class BottomNavigation extends StatelessWidget {
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           child: Container(
             color: Colors.white,
-            padding: const EdgeInsets.only(top: 8, bottom: 20, left: 12, right: 12),
+            padding: const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: items.map((item) {

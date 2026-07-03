@@ -44,12 +44,10 @@ class _PointsScreenState extends State<PointsScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 120),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -275,9 +273,7 @@ class _PointsScreenState extends State<PointsScreen> {
               ),
             ),
           ),
-          const BottomNavigation(activePage: 'profile'),
-        ],
-      ),
+      bottomNavigationBar: const BottomNavigation(activePage: 'profile'),
     );
   }
 

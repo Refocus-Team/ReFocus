@@ -89,11 +89,9 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFF1B2755),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Banner header
                 Container(
@@ -469,9 +467,7 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
               ],
             ),
           ),
-          const BottomNavigation(activePage: 'challenge'),
-        ],
-      ),
+      bottomNavigationBar: const BottomNavigation(activePage: 'challenge'),
     );
   }
 }

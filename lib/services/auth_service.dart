@@ -75,4 +75,44 @@ class AuthService {
     }
     return null;
   }
+
+  // Sign Up or Login via Google/Apple. Automatically creates a user if they don't exist.
+  static Future<Map<String, String>> loginOrSignUpSocial(String name, String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? usersJson = prefs.getString(_usersKey);
+    List<dynamic> users = [];
+    if (usersJson != null) {
+      try {
+        users = jsonDecode(usersJson) as List<dynamic>;
+      } catch (e) {
+        users = [];
+      }
+    }
+
+    final emailLower = email.trim().toLowerCase();
+    Map<String, dynamic>? existingUser;
+    for (var u in users) {
+      if (u['email'].toString().toLowerCase() == emailLower) {
+        existingUser = Map<String, dynamic>.from(u as Map);
+        break;
+      }
+    }
+
+    if (existingUser == null) {
+      // Create a new social user
+      final newUser = {
+        'name': name,
+        'email': emailLower,
+        'password': 'social_login_dummy_password',
+      };
+      users.add(newUser);
+      await prefs.setString(_usersKey, jsonEncode(users));
+      existingUser = newUser;
+    }
+
+    return {
+      'name': existingUser['name'].toString(),
+      'email': existingUser['email'].toString(),
+    };
+  }
 }

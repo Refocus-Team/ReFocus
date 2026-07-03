@@ -42,12 +42,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 120.0),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -58,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     children: [
                       Image.asset(
                         'assets/logo-refocus.png',
-                        height: 50,
+                        height: 30,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) => const Text(
                           'ReFocus',
@@ -610,10 +608,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
             ),
           ),
-          // Fixed Glassmorphic Navigation
-          const BottomNavigation(activePage: 'home'),
-        ],
-      ),
+      bottomNavigationBar: const BottomNavigation(activePage: 'home'),
     );
   }
 }
