@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from './index.jsx';
 
 function ChallengePlay() {
   const [selectedApps, setSelectedApps, userName, points, setPoints] = useContext(AppContext);
+  const navigate = useNavigate();
+  const base = import.meta.env.BASE_URL;
   
   const [gameCompleted, setGameCompleted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(90);
@@ -15,18 +18,18 @@ function ChallengePlay() {
   const openedCardCount = useRef(0);
 
   const icons = [
-    '/assets/coin-icon.png',
-    '/assets/coin-icon.png',
-    '/assets/icon-usage.png',
-    '/assets/icon-usage.png',
-    '/assets/apple-icon.png',
-    '/assets/apple-icon.png',
-    '/assets/google-icon.png',
-    '/assets/google-icon.png',
-    '/assets/apple-icon.png',
-    '/assets/apple-icon.png',
-    '/assets/google-icon.png',
-    '/assets/google-icon.png'
+    `${base}assets/coin-icon.png`,
+    `${base}assets/coin-icon.png`,
+    `${base}assets/icon-usage.png`,
+    `${base}assets/icon-usage.png`,
+    `${base}assets/apple-icon.png`,
+    `${base}assets/apple-icon.png`,
+    `${base}assets/google-icon.png`,
+    `${base}assets/google-icon.png`,
+    `${base}assets/apple-icon.png`,
+    `${base}assets/apple-icon.png`,
+    `${base}assets/google-icon.png`,
+    `${base}assets/google-icon.png`
   ];
 
   useEffect(() => {
@@ -65,10 +68,6 @@ function ChallengePlay() {
     setPoints(points + 10);
   };
 
-  const navigate = (path) => {
-    window.location.href = path;
-  };
-
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -101,18 +100,8 @@ function ChallengePlay() {
     }
   };
 
-  const restartGame = () => {
-    const shuffledCards = [...icons].sort(() => Math.random() - 0.5);
-    setCards(shuffledCards);
-    setOpenedCards([]);
-    setMatchedCards([]);
-    setTimeLeft(90);
-    setIsGameActive(true);
-    setGameCompleted(false);
-  };
-
   return (
-    <div className="min-h-screen bg-[#1B2755] text-white min-h-screen p-6">
+    <div className="min-h-screen bg-[#1B2755] text-white p-6">
       <div className="flex justify-between items-center mb-6">
         <button
           onClick={() => navigate('/challenge')}
@@ -123,7 +112,7 @@ function ChallengePlay() {
         <h1 className="text-xl font-bold">Memory Match</h1>
         <div className="flex items-center gap-2">
           <img
-            src="/assets/coin-icon.png"
+            src={`${base}assets/coin-icon.png`}
             alt="Coins"
             className="w-4 h-4"
           />
@@ -179,7 +168,7 @@ function ChallengePlay() {
             <h2 className="text-2xl font-bold mb-4">Challenge Completed!</h2>
             <div className="mb-6">
               <img
-                src="/assets/mascot-cool.png"
+                src={`${base}assets/mascot-cool.png`}
                 alt="Mascot"
                 className="w-24 mx-auto object-contain"
               />

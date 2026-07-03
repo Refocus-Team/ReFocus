@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LimitReachedPage() {
   const [timeLeft, setTimeLeft] = useState(900);
+  const navigate = useNavigate();
+  const base = import.meta.env.BASE_URL;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -16,10 +19,6 @@ function LimitReachedPage() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const navigate = (path) => {
-    window.location.href = path;
-  };
-
   return (
     <div className="min-h-screen bg-[#1B2755] text-white flex flex-col items-center justify-center p-6">
       <div className="relative">
@@ -32,7 +31,7 @@ function LimitReachedPage() {
           />
         </div>
         <img
-          src="/assets/mascot-locked.png"
+          src={`${base}assets/mascot-locked.png`}
           alt="Mascot"
           className="w-48 absolute inset-0 mx-auto object-contain"
         />

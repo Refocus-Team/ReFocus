@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { AppContext } from './index.jsx';
+import { useNavigate } from 'react-router-dom';
+import { AppContext, BottomNavigation } from './index.jsx';
 
 function Points() {
   const [selectedApps, setSelectedApps, userName, points, setPoints] = useContext(AppContext);
-
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
+  const base = import.meta.env.BASE_URL;
 
   const transactions = [
     { id: 1, date: 'Today', description: 'Completed Memory Match', points: '+10', type: 'earned' },
@@ -15,22 +16,20 @@ function Points() {
   ];
 
   const withdrawalOptions = [
-    { name: 'Voucher', min: 100, icon: '/assets/icon-points.png' },
-    { name: 'PayPal', min: 500, icon: '/assets/icon-points.png' },
-    { name: 'Bank Transfer', min: 1000, icon: '/assets/icon-points.png' },
+    { name: 'Voucher', min: 100, icon: `${base}assets/icon-points.png` },
+    { name: 'PayPal', min: 500, icon: `${base}assets/icon-points.png` },
+    { name: 'Bank Transfer', min: 1000, icon: `${base}assets/icon-points.png` },
   ];
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] pb-28">
       <div className="p-6">
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <button onClick={() => navigate('/profile')} className="text-2xl">←</button>
           <h1 className="text-xl font-bold text-[#1B2755]">My Points</h1>
           <div></div>
         </div>
 
-        {/* Points Balance Card */}
         <div className="bg-gradient-to-r from-[#1B2755] to-[#204A94] rounded-2xl p-6 text-white mb-6">
           <div className="text-center">
             <div className="text-sm opacity-80 mb-2">Your Points Balance</div>
@@ -39,7 +38,6 @@ function Points() {
           </div>
         </div>
 
-        {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="bg-white rounded-xl p-4 text-center shadow-sm">
             <div className="text-2xl font-bold text-[#204A94]">240</div>
@@ -55,7 +53,6 @@ function Points() {
           </div>
         </div>
 
-        {/* Withdrawal Options */}
         <div className="mb-6">
           <h2 className="text-lg font-bold text-[#1B2755] mb-4">Withdrawal Options</h2>
           <div className="grid grid-cols-3 gap-3">
@@ -88,11 +85,10 @@ function Points() {
           </div>
         </div>
 
-        {/* Transaction History */}
         <div>
           <h2 className="text-lg font-bold text-[#1B2755] mb-4">Transaction History</h2>
           <div className="space-y-3">
-            {transactions.map((transaction, index) => (
+            {transactions.map((transaction) => (
               <div
                 key={transaction.id}
                 className="bg-white rounded-xl p-4 flex justify-between items-center shadow-sm border border-gray-100"

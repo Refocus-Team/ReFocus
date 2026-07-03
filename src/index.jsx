@@ -1,16 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { useState, useEffect, createContext, useContext } from 'react';
 import { createRoot } from 'react-dom/client';
 
-// Import komponen halaman baru (Fase 6 & 7)
 import LimitReachedPage from './LimitReached.jsx';
 import ChallengeMenu from './ChallengeMenu.jsx';
 import ChallengePlay from './ChallengePlay.jsx';
 import Profile from './Profile.jsx';
 import Points from './Points.jsx';
 
-// Context Global
 export const AppContext = createContext();
+const base = import.meta.env.BASE_URL;
 
 function App() {
   const [selectedApps, setSelectedApps] = useState([
@@ -25,7 +24,7 @@ function App() {
 
   return (
     <AppContext.Provider value={[selectedApps, setSelectedApps, userName, points, setPoints]}>
-      <BrowserRouter>
+      <BrowserRouter basename={base}>
         <Routes>
           <Route path="/" element={<SplashScreen />} />
           <Route path="/intro" element={<IntroPage />} />
@@ -48,27 +47,26 @@ function App() {
   );
 }
 
-// --- KOMPONEN HALAMAN LAMA ---
-
 function SplashScreen() {
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
   useEffect(() => {
     const timer = setTimeout(() => { navigate('/intro'); }, 3000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-[#E3F0FB] p-6">
       <h1 className="text-5xl md:text-6xl font-extrabold text-[#1B2755] mb-4">ReFocus</h1>
       <p className="text-lg md:text-xl text-[#1B2755]">Reclaim Your Focus, Live Better</p>
       <div className="mt-8">
-        <img src="/splash.png" alt="Owl with tablet" className="w-2/3 md:w-1/2 mx-auto" />
+        <img src={`${base}splash.png`} alt="Owl with tablet" className="w-2/3 md:w-1/2 mx-auto" />
       </div>
     </div>
   );
 }
 
 function IntroPage() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const slides = [
     { title: "Stay Focused, Achieve More", description: "ReFocus helps you track screen time and build healthy digital habits.", image: "intro-1.png" },
@@ -80,7 +78,7 @@ function IntroPage() {
     if (currentStep < slides.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      window.location.href = '/login';
+      navigate('/login');
     }
   };
 
@@ -89,7 +87,7 @@ function IntroPage() {
       <div className="w-full max-w-6xl">
         <div className="md:flex md:flex-row md:items-center md:gap-8">
           <div className="md:w-1/2">
-            <img src={`/assets/images/${slides[currentStep].image}`} alt={slides[currentStep].title} className="w-2/3 md:w-1/2 mx-auto" />
+            <img src={`${base}assets/images/${slides[currentStep].image}`} alt={slides[currentStep].title} className="w-2/3 md:w-1/2 mx-auto" />
           </div>
           <div className="md:w-1/2 mt-6 md:mt-0">
             <h2 className="text-4xl md:text-5xl font-bold text-[#1B2755] mb-4 text-center md:text-left">{slides[currentStep].title}</h2>
@@ -110,10 +108,10 @@ function IntroPage() {
 }
 
 function LoginPage() {
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-6">
-      <img src="/assets/logo-refocus.png" alt="ReFocus Logo" className="h-8 mb-6 mx-auto object-contain" />
+      <img src={`${base}assets/logo-refocus.png`} alt="ReFocus Logo" className="h-8 mb-6 mx-auto object-contain" />
       <h1 className="text-2xl font-bold text-[#1A1A1A] text-center">Welcome back!</h1>
       <p className="text-sm text-[#204A94] text-center mb-6">Login to continue your journey.</p>
       <div className="w-full max-w-sm bg-white border border-[#A5C0DD] rounded-[2rem] p-6 relative shadow-[6px_10px_20px_rgba(220,232,245,0.8)]">
@@ -130,10 +128,10 @@ function LoginPage() {
 }
 
 function SignUpPage() {
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-6">
-      <img src="/assets/logo-refocus.png" alt="ReFocus Logo" className="h-8 mb-6 mx-auto object-contain" />
+      <img src={`${base}assets/logo-refocus.png`} alt="ReFocus Logo" className="h-8 mb-6 mx-auto object-contain" />
       <h1 className="text-2xl font-bold text-[#1A1A1A] text-center">Create your account</h1>
       <p className="text-sm text-[#204A94] text-center mb-6">Let's get you started!</p>
       <div className="w-full max-w-sm bg-white border border-[#A5C0DD] rounded-[2rem] p-6 relative shadow-[6px_10px_20px_rgba(220,232,245,0.8)]">
@@ -150,16 +148,16 @@ function SignUpPage() {
 }
 
 function PermissionPage() {
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
   return (
     <main className="min-h-screen bg-white flex flex-col items-center p-6">
       <div className="w-full max-w-md mx-auto">
-        <img src="/assets/mascot-permission.png" alt="Mascot" className="w-40 mx-auto mb-4 object-contain" />
+        <img src={`${base}assets/mascot-permission.png`} alt="Mascot" className="w-40 mx-auto mb-4 object-contain" />
         <h1 className="text-3xl font-bold text-[#1B2755] text-center mb-2">Hampir sampai!</h1>
         <p className="text-sm font-semibold text-[#204A94] text-center mb-6 px-4">Untuk mempersonalisasi pengalaman Anda, kami membutuhkan beberapa izin</p>
 
         <div className="w-full border border-[#A5C0DD] rounded-2xl p-4 mb-4 flex items-center gap-4 shadow-[4px_6px_15px_rgba(220,232,245,0.6)] bg-white">
-          <img src="/assets/icon-usage.png" alt="Usage" className="w-12 h-12 object-contain" />
+          <img src={`${base}assets/icon-usage.png`} alt="Usage" className="w-12 h-12 object-contain" />
           <div className="flex-1">
             <div className="font-bold text-[#1B2755] text-sm">Akses Penggunaan</div>
             <div className="text-xs text-gray-500 mt-0.5">Izinkan untuk melacak penggunaan aplikasi dan waktu layar.</div>
@@ -172,7 +170,7 @@ function PermissionPage() {
         </div>
 
         <div className="w-full border border-[#A5C0DD] rounded-2xl p-4 mb-4 flex items-center gap-4 shadow-[4px_6px_15px_rgba(220,232,245,0.6)] bg-white">
-          <img src="/assets/icon-notification.png" alt="Notification" className="w-12 h-12 object-contain" />
+          <img src={`${base}assets/icon-notification.png`} alt="Notification" className="w-12 h-12 object-contain" />
           <div className="flex-1">
             <div className="font-bold text-[#1B2755] text-sm">Notifikasi</div>
             <div className="text-xs text-gray-500 mt-0.5">Izinkan untuk mengingatkan Anda tentang batasan dan tantangan.</div>
@@ -192,7 +190,7 @@ function PermissionPage() {
 }
 
 function SelectAppsPage() {
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
   const [apps, setApps] = useState([
     { name: "Instagram", logo: "instagram.png", checked: true },
     { name: "TikTok", logo: "tiktok.png", checked: true },
@@ -209,14 +207,14 @@ function SelectAppsPage() {
   return (
     <main className="min-h-screen bg-white flex flex-col items-center p-6">
       <div className="w-full max-w-md mx-auto">
-        <img src="/assets/mascot-select.png" alt="Mascot" className="w-32 mx-auto mb-4 object-contain" />
+        <img src={`${base}assets/mascot-select.png`} alt="Mascot" className="w-32 mx-auto mb-4 object-contain" />
         <h1 className="text-3xl font-bold text-[#1B2755] text-center">Select Apps</h1>
         <p className="text-sm font-semibold text-[#204A94] text-center mt-1 mb-6">Pilih sosial media atau aplikasi yang anda ingin kelola</p>
         <div className="space-y-3 mt-2">
           {apps.map((app, index) => (
             <div key={index} onClick={() => toggleApp(index)} className="w-full border border-[#1B2755] rounded-xl p-3 mb-3 flex items-center justify-between bg-white cursor-pointer">
               <div className="flex items-center gap-3">
-                <img src={`/assets/${app.logo}`} className="w-8 h-8 object-contain" alt={app.name} />
+                <img src={`${base}assets/${app.logo}`} className="w-8 h-8 object-contain" alt={app.name} />
                 <div className="text-[#204A94] font-bold text-sm">{app.name}</div>
               </div>
               <div className={`w-5 h-5 border-2 ${app.checked ? 'bg-[#204A94] border-[#204A94]' : 'bg-white border-[#204A94]'} rounded flex items-center justify-center`}>
@@ -237,7 +235,7 @@ function SelectAppsPage() {
 }
 
 function SetLimitPage() {
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
   const limitApps = [
     { name: "Instagram", logo: "instagram.png", defaultLimit: "1 hour" },
     { name: "TikTok", logo: "tiktok.png", defaultLimit: "30 min" },
@@ -253,14 +251,14 @@ function SetLimitPage() {
   return (
     <main className="min-h-screen bg-white flex flex-col items-center p-6">
       <div className="w-full max-w-md mx-auto">
-        <img src="/assets/mascot-limit.png" alt="Mascot" className="w-32 mx-auto mb-4 object-contain" />
+        <img src={`${base}assets/mascot-limit.png`} alt="Mascot" className="w-32 mx-auto mb-4 object-contain" />
         <h1 className="text-3xl font-bold text-[#1B2755] text-center">Set Daily Limit</h1>
         <p className="text-sm font-semibold text-[#204A94] text-center mt-1 mb-6">Atur batas waktu harian Anda untuk setiap aplikasi</p>
         <div className="space-y-3 mt-2">
           {limitApps.map((app, index) => (
             <div key={index} className="w-full border border-[#1B2755] rounded-xl p-3 flex items-center justify-between bg-white shadow-sm">
               <div className="flex items-center gap-3">
-                <img src={`/assets/${app.logo}`} className="w-8 h-8 object-contain" alt={app.name} />
+                <img src={`${base}assets/${app.logo}`} className="w-8 h-8 object-contain" alt={app.name} />
                 <div className="text-[#204A94] font-bold text-sm">{app.name}</div>
               </div>
               <select
@@ -285,15 +283,13 @@ function SetLimitPage() {
 
 function HomePage() {
   const [selectedApps, , userName, points] = useContext(AppContext);
-
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] pb-28">
       <div className="p-6 max-w-lg mx-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <img src="/assets/logo-refocus.png" alt="ReFocus" className="h-12 w-auto" />
+          <img src={`${base}assets/logo-refocus.png`} alt="ReFocus" className="h-12 w-auto" />
           <div className="relative cursor-pointer">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B2755" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -303,7 +299,6 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Greeting */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-[#1B2755] leading-tight">
@@ -313,10 +308,9 @@ function HomePage() {
               Let's stay focused and achieve your goals today
             </p>
           </div>
-          <img src="/assets/mascot-cool.png" alt="Mascot" className="w-20 h-20 object-contain ml-4" />
+          <img src={`${base}assets/mascot-cool.png`} alt="Mascot" className="w-20 h-20 object-contain ml-4" />
         </div>
 
-        {/* Focus Score */}
         <div className="bg-[#1B2755] rounded-2xl p-6 mb-6 text-white">
           <div className="flex justify-between items-center">
             <div>
@@ -346,7 +340,6 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Daily Stats */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div className="text-xs text-gray-500 mb-1">Today's Screen Time</div>
@@ -370,7 +363,6 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Social Media Limits */}
         <div className="mb-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-bold text-[#1B2755]">Your Social Media Limits</h3>
@@ -385,7 +377,7 @@ function HomePage() {
             {selectedApps.map((app, index) => (
               <div key={index} className="flex items-center justify-between bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                 <div className="flex items-center gap-3">
-                  <img src={`/assets/${app.logo}`} alt={app.name} className="w-10 h-10 rounded-xl object-contain" />
+                  <img src={`${base}assets/${app.logo}`} alt={app.name} className="w-10 h-10 rounded-xl object-contain" />
                   <div>
                     <div className="font-semibold text-[#1B2755] text-sm">{app.name}</div>
                     <div className="text-xs text-gray-400">{app.timeLimit}</div>
@@ -404,7 +396,6 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Bottom Cards */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           <div className="bg-[#E0F2FE] rounded-xl p-4 flex flex-col">
             <h4 className="text-sm font-bold text-[#1B2755] mb-1">Today's Challenge</h4>
@@ -462,14 +453,12 @@ function StatisticsPage() {
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] pb-28">
-      {/* Header */}
       <div className="bg-[#1B2755] rounded-b-[2.5rem] pt-12 pb-8 px-6 relative text-white">
         <h1 className="text-3xl font-bold mb-1">Statistik</h1>
         <p className="text-sm max-w-[60%] text-gray-300">Lacak kemajuan Anda dan bangun kebiasaan digital yang lebih baik.</p>
-        <img src="/assets/mascot-stats.png" alt="Mascot" className="absolute bottom-0 right-4 w-28 object-contain" />
+        <img src={`${base}assets/mascot-stats.png`} alt="Mascot" className="absolute bottom-0 right-4 w-28 object-contain" />
       </div>
 
-      {/* Tabs */}
       <div className="flex justify-between bg-[#E3F0FB] p-1.5 rounded-full mx-6 mt-4">
         {tabs.map(tab => (
           <button
@@ -484,7 +473,6 @@ function StatisticsPage() {
         ))}
       </div>
 
-      {/* Metrics Cards */}
       <div className="grid grid-cols-2 gap-4 mx-6 mt-6">
         <div className="bg-white rounded-2xl p-4 shadow-sm">
           <div className="text-xs text-gray-500 mb-1">Focus Score</div>
@@ -523,7 +511,6 @@ function StatisticsPage() {
         </div>
       </div>
 
-      {/* Chart: Focus Trend */}
       <div className="bg-white rounded-2xl p-4 mx-6 mt-6 shadow-sm">
         <div className="flex justify-between items-start mb-1">
           <div>
@@ -557,7 +544,6 @@ function StatisticsPage() {
         </svg>
       </div>
 
-      {/* App Breakdown */}
       <div className="bg-white rounded-2xl p-4 mx-6 mt-6 mb-24 shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <span className="font-bold text-[#1B2755] text-sm">Most Used Apps</span>
@@ -567,7 +553,7 @@ function StatisticsPage() {
           {selectedApps.map((app, index) => (
             <div key={index} className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <img src={`/assets/${app.logo}`} alt={app.name} className="w-8 h-8 rounded-lg object-contain" />
+                <img src={`${base}assets/${app.logo}`} alt={app.name} className="w-8 h-8 rounded-lg object-contain" />
                 <div>
                   <div className="text-sm font-semibold text-[#1B2755]">{app.name}</div>
                   <div className="text-xs text-gray-400">{app.timeLimit}</div>
@@ -589,15 +575,14 @@ function StatisticsPage() {
   );
 }
 
-// Komponen navigasi bawah agar bisa dipanggil di mana saja
 export function BottomNavigation({ activePage }) {
-  const navigate = (path) => { window.location.href = path; };
+  const navigate = useNavigate();
   
   const navItems = [
-    { path: '/home', icon: '/assets/nav-home.png', label: 'Home' },
-    { path: '/statistics', icon: '/assets/nav-stats.png', label: 'Statistics' },
-    { path: '/challenge', icon: '/assets/nav-challenge.png', label: 'Challenge' },
-    { path: '/profile', icon: '/assets/nav-profile.png', label: 'Profile' }
+    { path: '/home', icon: `${base}assets/nav-home.png`, label: 'Home' },
+    { path: '/statistics', icon: `${base}assets/nav-stats.png`, label: 'Statistics' },
+    { path: '/challenge', icon: `${base}assets/nav-challenge.png`, label: 'Challenge' },
+    { path: '/profile', icon: `${base}assets/nav-profile.png`, label: 'Profile' }
   ];
   
   return (
@@ -630,7 +615,6 @@ export function BottomNavigation({ activePage }) {
   );
 }
 
-// --- RENDER KE LAYAR ---
 const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = createRoot(rootElement);

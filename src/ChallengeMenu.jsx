@@ -1,8 +1,11 @@
 import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext, BottomNavigation } from './index.jsx';
 
 function ChallengeMenu() {
   const [selectedApps, setSelectedApps, userName, points, setPoints] = useContext(AppContext);
+  const navigate = useNavigate();
+  const base = import.meta.env.BASE_URL;
 
   const [challenges] = useState([
     { title: "Memory Match", description: "Train your memory and attention.", points: 10 },
@@ -10,10 +13,6 @@ function ChallengeMenu() {
     { title: "Math Sprint", description: "Solve math problems in time.", points: 20 },
     { title: "Pattern Recall", description: "Remember and repeat patterns.", points: 25 }
   ]);
-
-  const navigate = (path) => {
-    window.location.href = path;
-  };
 
   return (
     <div className="min-h-screen bg-[#1B2755] text-white">
@@ -25,7 +24,7 @@ function ChallengeMenu() {
             <div className="font-bold text-2xl">{points}</div>
           </div>
           <img
-            src="/assets/mascot-cool.png"
+            src={`${base}assets/mascot-cool.png`}
             alt="Mascot"
             className="w-24 absolute right-4 -mt-4 object-contain"
           />

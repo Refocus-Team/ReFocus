@@ -1,30 +1,29 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext, BottomNavigation } from './index.jsx';
 
 function Profile() {
   const [selectedApps, setSelectedApps, userName, points, setPoints] = useContext(AppContext);
-
-  const navigate = (path) => {
-    window.location.href = path;
-  };
+  const navigate = useNavigate();
+  const base = import.meta.env.BASE_URL;
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] pb-24 relative p-6">
       <img
-        src="/assets/icon-settings.png"
+        src={`${base}assets/icon-settings.png`}
         alt="Settings"
         className="w-6 h-6 absolute top-6 right-6 cursor-pointer"
       />
 
       <div className="relative mt-10 mx-auto w-28 h-28">
         <img
-          src="/assets/profile-avatar.png"
+          src={`${base}assets/profile-avatar.png`}
           alt="Profile"
           className="w-full h-full rounded-full object-cover shadow-md"
         />
         <div className="bg-white rounded-full p-1.5 shadow-sm absolute bottom-0 right-0 border border-gray-100">
           <img
-            src="/assets/icon-camera.png"
+            src={`${base}assets/icon-camera.png`}
             alt="Camera"
             className="w-5 h-5"
           />
@@ -74,7 +73,7 @@ function Profile() {
       <div className="flex justify-between items-start max-w-sm mx-auto w-full gap-2">
         <div className="text-center">
           <img
-            src="/assets/ach-1.png"
+            src={`${base}assets/ach-1.png`}
             alt="First step"
             className="w-16 h-16 object-contain"
           />
@@ -84,7 +83,7 @@ function Profile() {
         </div>
         <div className="text-center">
           <img
-            src="/assets/ach-2.png"
+            src={`${base}assets/ach-2.png`}
             alt="Time tracker"
             className="w-16 h-16 object-contain"
           />
@@ -94,7 +93,7 @@ function Profile() {
         </div>
         <div className="text-center">
           <img
-            src="/assets/ach-3.png"
+            src={`${base}assets/ach-3.png`}
             alt="Limit setter"
             className="w-16 h-16 object-contain"
           />
@@ -104,7 +103,7 @@ function Profile() {
         </div>
         <div className="text-center">
           <img
-            src="/assets/ach-4.png"
+            src={`${base}assets/ach-4.png`}
             alt="Locked in"
             className="w-16 h-16 object-contain"
           />
@@ -121,7 +120,7 @@ function Profile() {
         >
           <div className="flex items-center">
             <img
-              src="/assets/icon-history.png"
+              src={`${base}assets/icon-history.png`}
               alt="Focus History"
               className="w-6 h-6 mr-3"
             />
@@ -136,7 +135,7 @@ function Profile() {
         >
           <div className="flex items-center">
             <img
-              src="/assets/icon-points.png"
+              src={`${base}assets/icon-points.png`}
               alt="My Points"
               className="w-6 h-6 mr-3"
             />
