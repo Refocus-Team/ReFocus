@@ -13,18 +13,18 @@ class _IntroScreenState extends State<IntroScreen> {
 
   final List<Map<String, String>> _slides = [
     {
-      "title": "Stay Focused, Achieve More",
-      "description": "ReFocus helps you track screen time and build healthy digital habits.",
+      "title": "Stay Focused,\nAchieve More",
+      "description": "ReFocus membantu Anda melacak waktu layar, mengurangi gangguan, dan membangun kebiasaan yang lebih baik",
       "image": "assets/images/intro-1.png"
     },
     {
-      "title": "Beat Distraction with Challenges",
-      "description": "Complete engaging challenges to strengthen your focus and reduce screen-related distractions.",
+      "title": "Beat Distraction\nwith Challenges",
+      "description": "Selesaikan tantangan seru dan edukatif, raih kembali fokusmu, dan dapatkan hadiahnya!",
       "image": "assets/images/intro-2.png"
     },
     {
-      "title": "Track Progress, See Results",
-      "description": "Monitor your progress, set goals, and celebrate your achievements in building better focus habits.",
+      "title": "Track Progress,\nSee Results",
+      "description": "Pantau progresmu, bangun konsistensi, dan jadilah versi terbaikmu.",
       "image": "assets/images/intro-3.png"
     }
   ];
@@ -61,50 +61,52 @@ class _IntroScreenState extends State<IntroScreen> {
                   itemBuilder: (context, index) {
                     final slide = _slides[index];
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Slide Image
-                        Expanded(
-                          flex: 5,
-                          child: Center(
-                            child: Image.asset(
-                              slide["image"]!,
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Icon(
-                                  Icons.image,
-                                  size: 150,
-                                  color: Color(0xFFA5C0DD),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 40),
                         // Slide Title
                         Text(
                           slide["title"]!,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w900,
                             color: Color(0xFF1B2755),
-                            height: 1.2,
+                            height: 1.25,
+                            letterSpacing: -0.5,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const Spacer(),
+                        // Slide Image
+                        Image.asset(
+                          slide["image"]!,
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(
+                              Icons.image,
+                              size: 150,
+                              color: Color(0xFFA5C0DD),
+                            );
+                          },
+                        ),
+                        const Spacer(),
                         // Slide Description
-                        Text(
-                          slide["description"]!,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            color: Color(0xFF204A94),
-                            height: 1.4,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            slide["description"]!,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF204A94),
+                              height: 1.4,
+                            ),
                           ),
                         ),
-                        const Spacer(flex: 1),
+                        const SizedBox(height: 20),
                       ],
                     );
                   },
@@ -115,22 +117,25 @@ class _IntroScreenState extends State<IntroScreen> {
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: Column(
                   children: [
-                    // Dynamic indicators
+                    // Dynamic indicators (equal-sized circles)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         _slides.length,
                         (index) => AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                          width: index == _currentStep ? 24.0 : 8.0,
-                          height: 8.0,
+                          margin: const EdgeInsets.symmetric(horizontal: 6.0),
+                          width: 12.0,
+                          height: 12.0,
                           decoration: BoxDecoration(
                             color: index == _currentStep
                                 ? const Color(0xFF1B2755)
                                 : Colors.transparent,
-                            border: Border.all(color: const Color(0xFF1B2755)),
-                            borderRadius: BorderRadius.circular(4.0),
+                            border: Border.all(
+                              color: const Color(0xFF1B2755),
+                              width: 1.5,
+                            ),
+                            shape: BoxShape.circle,
                           ),
                         ),
                       ),
@@ -150,9 +155,9 @@ class _IntroScreenState extends State<IntroScreen> {
                           ),
                           elevation: 2,
                         ),
-                        child: Text(
-                          _currentStep < _slides.length - 1 ? 'Next' : 'Start',
-                          style: const TextStyle(
+                        child: const Text(
+                          'Next',
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),

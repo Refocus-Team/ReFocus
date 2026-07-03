@@ -88,13 +88,13 @@ class _SignupScreenState extends State<SignupScreen> {
                 // App Logo
                 Image.asset(
                   'assets/logo-refocus.png',
-                  height: 48,
+                  height: 80,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
                     return const Text(
                       'ReFocus',
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 48,
                         fontWeight: FontWeight.w900,
                         color: Color(0xFF204A94),
                       ),
@@ -128,12 +128,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(32),
-                    border: Border.all(color: const Color(0xFFA5C0DD)),
+                    border: Border.all(color: const Color(0xFF204A94), width: 1.2),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFFDCE8F5).withOpacity(0.8),
-                        blurRadius: 20,
-                        offset: const Offset(6, 10),
+                        color: const Color(0xFF204A94).withOpacity(0.15),
+                        blurRadius: 24,
+                        offset: const Offset(6, 12),
                       ),
                     ],
                   ),
@@ -142,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     children: [
                       // Name Input
                       const Text(
-                        'Name',
+                        'Nama',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
@@ -159,7 +159,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
-                          hintText: 'Enter your full name',
+                          hintText: 'Enter your name',
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -235,7 +235,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
-                          hintText: 'Create a password',
+                          hintText: 'Password',
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -271,7 +271,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             decoration: BoxDecoration(
                               color: const Color(0xFF204A94),
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
                                   color: const Color(0xFF204A94).withOpacity(0.3),
@@ -301,6 +301,85 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ),
                         ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Divider "or continue with"
+                      Row(
+                        children: [
+                          Expanded(child: Divider(color: Colors.grey[300])),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'or continue with',
+                              style: TextStyle(
+                                color: Colors.grey[500],
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                          Expanded(child: Divider(color: Colors.grey[300])),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Social buttons row
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 52,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                                ),
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/google-icon.png',
+                                    height: 24,
+                                    width: 24,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                      Icons.g_mobiledata,
+                                      color: Colors.red,
+                                      size: 32,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 52,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                                ),
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/apple-icon.png',
+                                    height: 24,
+                                    width: 24,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                      Icons.apple,
+                                      color: Colors.black,
+                                      size: 28,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

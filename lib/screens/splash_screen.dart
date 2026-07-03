@@ -89,22 +89,29 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 },
                 child: Column(
                   children: [
-                    const Text(
-                      'ReFocus',
-                      style: TextStyle(
-                        fontSize: 56,
-                        fontWeight: FontWeight.w900, // ExtraBold
-                        color: Color(0xFF1B2755),
-                        letterSpacing: -1,
+                    Image.asset(
+                      'assets/logo-refocus.png',
+                      height: 75,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => const Text(
+                        'ReFocus',
+                        style: TextStyle(
+                          fontSize: 56,
+                          fontWeight: FontWeight.w900, // ExtraBold
+                          color: Color(0xFF1B2755),
+                          letterSpacing: -1,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Reclaim Your Focus, Live Better',
+                      'Reclaim Your Focus,\nLive Better',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w900,
                         color: Color(0xFF1B2755),
+                        height: 1.25,
                       ),
                     ),
                   ],

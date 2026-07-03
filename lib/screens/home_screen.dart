@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     children: [
                       Image.asset(
                         'assets/logo-refocus.png',
-                        height: 80,
+                        height: 50,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) => const Text(
                           'ReFocus',
@@ -110,45 +110,30 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Good Morning,\n$userName!',
+                              'Good Morning, $userName! 👋',
                               style: const TextStyle(
-                                fontSize: 30,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF1B2755),
-                                height: 1.15,
                               ),
                             ),
                             const SizedBox(height: 4),
                             const Text(
                               "Let's stay focused and achieve your goals today",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 13,
                                 color: Colors.grey,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      AnimatedBuilder(
-                        animation: _mascotFloat,
-                        builder: (context, child) {
-                          return Transform.translate(
-                            offset: Offset(0, _mascotFloat.value),
-                            child: child,
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/mascot-cool.png',
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.contain,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.face_retouching_natural,
-                            size: 60,
-                            color: Color(0xFF1B2755),
-                          ),
-                        ),
+                      const SizedBox(width: 8),
+                      Image.asset(
+                        'assets/mascot-home.png',
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.contain,
                       ),
                     ],
                   ),
@@ -174,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.white70,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const SizedBox(height: 4),
@@ -187,9 +173,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: '/100',
+                                      text: ' / 100',
                                       style: TextStyle(
-                                        fontSize: 24,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.normal,
                                         color: Colors.white60,
                                       ),
@@ -199,13 +185,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               ),
                               const SizedBox(height: 12),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.15),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: const Text(
-                                  'Excellent!',
+                                  'Execellent!',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -217,10 +203,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           ),
                         ),
                         const SizedBox(width: 12),
-                        // Circular Progress Indicator
+                        // Circular Progress Indicator (thicker stroke)
                         SizedBox(
-                          width: 90,
-                          height: 90,
+                          width: 100,
+                          height: 100,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
@@ -230,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 curve: Curves.easeOutCubic,
                                 builder: (context, value, child) {
                                   return CustomPaint(
-                                    size: const Size(80, 80),
+                                    size: const Size(90, 90),
                                     painter: _CircularProgressPainter(progress: value),
                                   );
                                 },
@@ -254,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
 
                   // Grid Metrics
                   GridView.count(
@@ -271,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                          border: Border.all(color: Colors.grey.withOpacity(0.08)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,21 +265,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           children: [
                             const Text(
                               "Today's Screen Time",
-                              style: TextStyle(fontSize: 13, color: Colors.grey),
+                              style: TextStyle(fontSize: 13, color: Color(0xFF204A94), fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 4),
                             const Text(
                               '1h 42m',
-                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF2C3E50)),
+                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
                             ),
-                            const SizedBox(height: 4),
-                            Row(
+                            const SizedBox(height: 6),
+                            const Row(
                               children: [
-                                const Icon(Icons.arrow_upward, color: Colors.green, size: 14),
-                                const SizedBox(width: 2),
+                                Icon(Icons.arrow_downward, color: Color(0xFF10B981), size: 14),
+                                SizedBox(width: 2),
                                 Text(
-                                  '10% from yesterday',
-                                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.green[600]),
+                                  '10%',
+                                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF10B981)),
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  'from yesterday',
+                                  style: TextStyle(fontSize: 11, color: Color(0xFF38BDF8), fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -306,43 +297,43 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                          border: Border.all(color: Colors.grey.withOpacity(0.08)),
                         ),
-                        child: Column(
+                        child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               'Current Streak',
-                              style: TextStyle(fontSize: 13, color: Colors.grey),
+                              style: TextStyle(fontSize: 13, color: Color(0xFF204A94), fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(height: 4),
-                            const Row(
+                            SizedBox(height: 4),
+                            Row(
                               textBaseline: TextBaseline.alphabetic,
                               crossAxisAlignment: CrossAxisAlignment.baseline,
                               children: [
                                 Text(
                                   '7',
-                                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF204A94)),
+                                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
                                 ),
-                                SizedBox(width: 2),
+                                SizedBox(width: 4),
                                 Text(
                                   'Days',
-                                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                                  style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 6),
                             Text(
-                              '$points pts · Keep it up!',
-                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF204A94)),
+                              'Keep your streak alive',
+                              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF38BDF8)),
                             ),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
 
                   // Limits Section Header
                   Row(
@@ -360,207 +351,254 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         onTap: () {
                           Navigator.pushNamed(context, '/select-apps');
                         },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE0F2FE),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            'Edit Limits',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF204A94),
-                            ),
+                        child: const Text(
+                          'Edit Limits',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF204A94),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
 
-                  // Social Limits App Cards
+                  // Social Limits App Cards (Updated Layout matching design)
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: apps.length,
+                    itemCount: min(3, apps.length),
                     itemBuilder: (context, index) {
                       final app = apps[index];
                       return Container(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        padding: const EdgeInsets.all(14),
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.grey.withOpacity(0.08)),
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Image.asset(
+                              'assets/${app.logo}',
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) => const Icon(Icons.android, size: 36),
+                            ),
+                            const SizedBox(width: 12),
                             Expanded(
-                              child: Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(
-                                    'assets/${app.logo}',
-                                    width: 38,
-                                    height: 38,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.android),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          app.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        app.name,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF204A94),
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        app.name == 'Instagram'
+                                            ? '20m/30m'
+                                            : app.name == 'TikTok'
+                                                ? '31m/1h'
+                                                : '1h/1h 30min',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF204A94),
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFE0F2FE),
+                                          borderRadius: BorderRadius.circular(6),
+                                          border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.5)),
+                                        ),
+                                        child: Text(
+                                          app.name == 'Instagram'
+                                              ? '90%'
+                                              : app.name == 'TikTok'
+                                                  ? '25%'
+                                                  : '85%',
                                           style: const TextStyle(
+                                            color: Color(0xFF204A94),
                                             fontWeight: FontWeight.bold,
-                                            color: Color(0xFF1B2755),
-                                            fontSize: 16,
+                                            fontSize: 10,
                                           ),
                                         ),
-                                        Text(
-                                          app.timeLimit,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  // Progress bar stretched
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: 8,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: LinearProgressIndicator(
+                                        value: app.name == 'Instagram'
+                                            ? 20 / 30
+                                            : app.name == 'TikTok'
+                                                ? 31 / 60
+                                                : 60 / 90,
+                                        backgroundColor: Colors.grey[200],
+                                        color: const Color(0xFF38BDF8),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFE0F2FE),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Text(
-                                    '${app.progress}%',
-                                    style: const TextStyle(
-                                      color: Color(0xFF204A94),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                // Progress bar
-                                SizedBox(
-                                  width: 60,
-                                  height: 6,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(3),
-                                    child: TweenAnimationBuilder<double>(
-                                      tween: Tween<double>(begin: 0, end: app.progress / 100.0),
-                                      duration: const Duration(seconds: 1),
-                                      builder: (context, val, child) {
-                                        return LinearProgressIndicator(
-                                          value: val,
-                                          backgroundColor: Colors.grey[200],
-                                          color: const Color(0xFF38BDF8),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
                             ),
                           ],
                         ),
                       );
                     },
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
 
-                  // Bottom Challenge & Insights Grid
+                  // Bottom Challenge & Insights Grid (with standing mascots)
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Challenge card
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(16),
+                          height: 180,
+                          padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
                             color: const Color(0xFFE0F2FE),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Stack(
                             children: [
-                              const Text(
-                                "Today's Challenge",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1B2755), fontSize: 15),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Train your memory and improve focus in just 2 minutes!',
-                                style: TextStyle(fontSize: 12, color: Color(0xFF555555), height: 1.3),
-                              ),
-                              const SizedBox(height: 12),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/challenge');
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF1B2755),
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Row(
+                                    children: [
+                                      Icon(Icons.sports_esports_outlined, size: 16, color: Color(0xFF204A94)),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        "Today's Challenge",
+                                        style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF204A94), fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'Memory Match',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1B2755)),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  const SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      'Train your memory and improve focus in just 2 minutes!',
+                                      style: TextStyle(fontSize: 10, color: Color(0xFF204A94), height: 1.3),
                                     ),
-                                    elevation: 0,
                                   ),
-                                  child: const Text(
-                                    'Start Challenge',
-                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                  const Spacer(),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/challenge');
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF204A94),
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                      elevation: 0,
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('Start Challenge', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                                        SizedBox(width: 2),
+                                        Icon(Icons.chevron_right, size: 12),
+                                      ],
+                                    ),
                                   ),
+                                ],
+                              ),
+                              Positioned(
+                                bottom: -4,
+                                right: -4,
+                                child: Image.asset(
+                                  'assets/mascot-home-todays.png',
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) => const SizedBox(),
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: 12),
                       // Insight card
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(16),
+                          height: 180,
+                          padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
                             color: const Color(0xFFE0F2FE),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          child: const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Stack(
                             children: [
-                              Row(
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('💡', style: TextStyle(fontSize: 14)),
-                                  SizedBox(width: 4),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.lightbulb_outline, size: 16, color: Color(0xFF204A94)),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        "Daily Insight",
+                                        style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF204A94), fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
                                   Text(
-                                    "Daily Insight",
-                                    style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1B2755), fontSize: 15),
+                                    'You spend the most time on social media between',
+                                    style: TextStyle(fontSize: 10, color: Color(0xFF204A94), height: 1.3),
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(
+                                    '8 PM – 10 PM',
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1B2755)),
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(
+                                    'Try to take a break during that time tomorrow!',
+                                    style: TextStyle(fontSize: 10, color: Color(0xFF204A94), height: 1.3),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 6),
-                              Text(
-                                'You spend the most time on social media between 8-10 PM. Try to take a break during that time tomorrow!',
-                                style: TextStyle(fontSize: 12, color: Color(0xFF555555), height: 1.3),
+                              Positioned(
+                                bottom: -4,
+                                right: -4,
+                                child: Image.asset(
+                                  'assets/mascot-home-daily.png',
+                                  width: 55,
+                                  height: 55,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                                ),
                               ),
                             ],
                           ),
@@ -588,18 +626,18 @@ class _CircularProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = min(size.width / 2, size.height / 2) - 4;
+    final radius = min(size.width / 2, size.height / 2) - 8;
 
     final backgroundPaint = Paint()
       ..color = const Color(0xFF25407A)
-      ..strokeWidth = 6
-      ..style = PaintingStyle.stroke;
+      ..strokeWidth = 10;
+    backgroundPaint.style = PaintingStyle.stroke;
 
     final foregroundPaint = Paint()
       ..color = const Color(0xFF38BDF8)
-      ..strokeWidth = 6
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
+      ..strokeWidth = 10;
+    foregroundPaint.strokeCap = StrokeCap.round;
+    foregroundPaint.style = PaintingStyle.stroke;
 
     canvas.drawCircle(center, radius, backgroundPaint);
     canvas.drawArc(

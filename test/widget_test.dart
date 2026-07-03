@@ -12,7 +12,7 @@ void main() {
       ),
     );
 
-    // Verify that the title ReFocus is found on the splash screen
-    expect(find.text('ReFocus'), findsOneWidget);
+    // Verify that the subtitle is found on the splash screen
+    expect(find.text('Reclaim Your Focus,\nLive Better'), findsOneWidget);
   });
 }

@@ -19,8 +19,11 @@ import 'screens/notifications_screen.dart';
 import 'screens/focus_history_screen.dart';
 import 'screens/math_sprint_screen.dart';
 import 'screens/pattern_recall_screen.dart';
+import 'services/auth_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AuthService.seedDefaultUser();
   runApp(
     AppStateProvider(
       notifier: AppState(),

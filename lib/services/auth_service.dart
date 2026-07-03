@@ -4,6 +4,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
   static const String _usersKey = 'refocus_registered_users';
 
+  // Seed a default user account so testing login can be done immediately
+  static Future<void> seedDefaultUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? usersJson = prefs.getString(_usersKey);
+    if (usersJson == null) {
+      final List<dynamic> defaultUsers = [
+        {
+          'name': 'Dio',
+          'email': 'dio@gmail.com',
+          'password': 'password123',
+        }
+      ];
+      await prefs.setString(_usersKey, jsonEncode(defaultUsers));
+    }
+  }
+
   // Sign up a new user. Returns null on success, or an error message on failure.
   static Future<String?> signUp(String name, String email, String password) async {
     final prefs = await SharedPreferences.getInstance();

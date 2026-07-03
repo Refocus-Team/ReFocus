@@ -83,55 +83,89 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   Widget _buildMiniBarChart() {
-    final heights = [40, 55, 70, 45, 60, 80, 65, 50, 75, 90, 85, 60];
-    return Container(
-      height: 32,
-      margin: const EdgeInsets.only(top: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: heights.map((h) {
-          return Expanded(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 1.0),
-              height: h * 0.35,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE0F2FE),
-                borderRadius: BorderRadius.circular(2),
+    final heights = [25, 45, 60, 30, 20, 50, 40, 35]; // 8 bars matching mockup
+    final labels = ['00', '06', '12', '18', '23'];
+    return Column(
+      children: [
+        Container(
+          height: 36,
+          margin: const EdgeInsets.only(top: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: heights.map((h) {
+              return Expanded(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 2.0),
+                  height: h * 0.4,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD6E9FA),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: labels.map((lbl) {
+            return Text(
+              lbl,
+              style: const TextStyle(
+                fontSize: 9,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1B2755),
               ),
-            ),
-          );
-        }).toList(),
-      ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 
   Widget _buildStreakCircles() {
-    return Container(
-      margin: const EdgeInsets.only(top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _days.map((day) {
-          return Container(
-            width: 24,
-            height: 24,
-            decoration: const BoxDecoration(
-              color: Color(0xFF204A94),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(7, (index) {
+            return Container(
+              width: 18,
+              height: 18,
+              decoration: const BoxDecoration(
+                color: Color(0xFF204A94),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.check,
+                size: 11,
+                color: Colors.white,
+              ),
+            );
+          }),
+        ),
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _days.map((day) {
+            return SizedBox(
+              width: 18,
               child: Text(
                 day,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 9,
+                  color: Colors.black87,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-          );
-        }).toList(),
-      ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 
@@ -190,12 +224,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             ),
                           ],
                         ),
-                        // Stats mascot absolute
+                        // Stats mascot absolute (on the right)
                         Positioned(
                           bottom: -28,
                           right: -12,
                           child: Image.asset(
-                            'assets/mascot-stats.png',
+                            'assets/mascot-statistics.png',
                             width: 100,
                             fit: BoxFit.contain,
                             errorBuilder: (context, error, stackTrace) => const Icon(
@@ -274,10 +308,25 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text("Today's Screen Time", style: TextStyle(fontSize: 10, color: Colors.grey)),
+                                    const Text("Today’s Screen Time", style: TextStyle(fontSize: 11, color: Color(0xFF204A94), fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 4),
+                                    const Text("1h 42m", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black)),
                                     const SizedBox(height: 2),
-                                    const Text("1h 42m", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1B2755))),
-                                    const Text("↓ 10% from yesterday", style: TextStyle(fontSize: 9, color: Colors.green, fontWeight: FontWeight.bold)),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.arrow_downward, color: Color(0xFF10B981), size: 12),
+                                        const SizedBox(width: 2),
+                                        const Text(
+                                          '10%',
+                                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981)),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        const Text(
+                                          'from yesterday',
+                                          style: TextStyle(fontSize: 10, color: Color(0xFF38BDF8), fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
                                     _buildMiniBarChart(),
                                   ],
                                 ),
@@ -293,10 +342,34 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text("Current Streak", style: TextStyle(fontSize: 10, color: Colors.grey)),
+                                    const Text("Current Streak", style: TextStyle(fontSize: 11, color: Color(0xFF204A94), fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      textBaseline: TextBaseline.alphabetic,
+                                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                                      children: [
+                                        const Text(
+                                          '7',
+                                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        const Text(
+                                          'Days',
+                                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
                                     const SizedBox(height: 2),
-                                    const Text("7 Days", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1B2755))),
-                                    const Text("🔥 Keep it up!", style: TextStyle(fontSize: 9, color: Color(0xFF204A94), fontWeight: FontWeight.bold)),
+                                    Row(
+                                      children: [
+                                        const Text('🔥', style: TextStyle(fontSize: 12)),
+                                        const SizedBox(width: 2),
+                                        const Text(
+                                          'Keep it up!',
+                                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFF97316)),
+                                        ),
+                                      ],
+                                    ),
                                     _buildStreakCircles(),
                                   ],
                                 ),
@@ -474,66 +547,99 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: apps.length,
+                          itemCount: apps.length > 4 ? 4 : apps.length,
                           itemBuilder: (context, index) {
                             final app = apps[index];
                             return Container(
-                              margin: const EdgeInsets.only(bottom: 12),
+                              margin: const EdgeInsets.only(bottom: 14),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/${app.logo}',
-                                        width: 32,
-                                        height: 32,
-                                        fit: BoxFit.contain,
-                                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.android),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            app.name,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF1B2755),
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          Text(
-                                            app.timeLimit,
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                  Image.asset(
+                                    'assets/${app.logo}',
+                                    width: 36,
+                                    height: 36,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.android, size: 32),
                                   ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFE0F2FE),
-                                          borderRadius: BorderRadius.circular(12),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              app.name,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF204A94),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              app.name == 'Instagram'
+                                                  ? '20m/30m'
+                                                  : app.name == 'TikTok'
+                                                      ? '31m/1h'
+                                                      : app.name == 'YouTube'
+                                                          ? '1h/1h 30min'
+                                                          : '50m/50m',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF204A94),
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFFE0F2FE),
+                                                borderRadius: BorderRadius.circular(6),
+                                                border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.5)),
+                                              ),
+                                              child: Text(
+                                                app.name == 'Instagram'
+                                                    ? '90%'
+                                                    : app.name == 'TikTok'
+                                                        ? '25%'
+                                                        : app.name == 'YouTube'
+                                                            ? '85%'
+                                                            : '100%',
+                                                style: const TextStyle(
+                                                  color: Color(0xFF204A94),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 9,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 6),
+                                            const Icon(Icons.chevron_right, size: 16, color: Color(0xFF204A94)),
+                                          ],
                                         ),
-                                        child: Text(
-                                          '${app.progress}%',
-                                          style: const TextStyle(
-                                            color: Color(0xFF204A94),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 9,
+                                        const SizedBox(height: 6),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          height: 6,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(3),
+                                            child: LinearProgressIndicator(
+                                              value: app.name == 'Instagram'
+                                                  ? 20 / 30
+                                                  : app.name == 'TikTok'
+                                                      ? 31 / 60
+                                                      : app.name == 'YouTube'
+                                                          ? 60 / 90
+                                                          : 50 / 50,
+                                              backgroundColor: Colors.grey[200],
+                                              color: const Color(0xFF38BDF8),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      const Icon(Icons.chevron_right, size: 16, color: Colors.grey),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
