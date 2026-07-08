@@ -170,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
-                      onTap: () => _showSettingsBottomSheet(context, state),
+                      onTap: () => Navigator.pushNamed(context, '/settings'),
                       child: Image.asset(
                         'assets/icon-settings.png',
                         width: 28,

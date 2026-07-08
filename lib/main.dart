@@ -19,6 +19,7 @@ import 'screens/notifications_screen.dart';
 import 'screens/focus_history_screen.dart';
 import 'screens/math_sprint_screen.dart';
 import 'screens/pattern_recall_screen.dart';
+import 'screens/settings_screen.dart';
 import 'services/auth_service.dart';
 
 void main() async {
@@ -117,13 +118,16 @@ class ReFocusApp extends StatelessWidget {
           case '/focus-history':
             builder = const FocusHistoryScreen();
             break;
+          case '/settings':
+            builder = const SettingsScreen();
+            break;
           default:
             builder = const SplashScreen();
         }
 
         // Custom PageRouteBuilder for instant or quick transitions between main tabs
         // to match React single page app behavior
-        if (['/home', '/statistics', '/challenge', '/profile'].contains(settings.name)) {
+        if (['/home', '/statistics', '/challenge', '/profile', '/settings'].contains(settings.name)) {
           return PageRouteBuilder(
             settings: settings,
             pageBuilder: (context, animation, secondaryAnimation) => builder,
