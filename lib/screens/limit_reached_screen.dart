@@ -10,7 +10,7 @@ class LimitReachedScreen extends StatefulWidget {
 }
 
 class _LimitReachedScreenState extends State<LimitReachedScreen> with SingleTickerProviderStateMixin {
-  int _timeLeft = 900; // 15 minutes in seconds
+  int _timeLeft = 900; // 15 minutes in seconds (15 * 60)
   Timer? _timer;
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
@@ -22,10 +22,10 @@ class _LimitReachedScreenState extends State<LimitReachedScreen> with SingleTick
 
     _pulseController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 2500),
     )..repeat(reverse: true);
 
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
+    _pulseAnimation = Tween<double>(begin: 0.98, end: 1.02).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
   }
@@ -52,153 +52,161 @@ class _LimitReachedScreenState extends State<LimitReachedScreen> with SingleTick
   String _formatTime(int seconds) {
     final mins = seconds ~/ 60;
     final secs = seconds % 60;
-    return "$mins:${secs.toString().padLeft(2, '0')}";
+    return "${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}";
   }
 
   @override
   Widget build(BuildContext context) {
-    final progressFraction = _timeLeft / 900.0;
+    // We start with a slice of white representing 15 minutes countdown (e.g. 0.25 to 0.0)
+    // Or we can let it show a nice sweep. Let's make it start at 0.25 and count down.
+    final progressFraction = _timeLeft / 3600.0; // 15 mins out of 60 mins = 0.25 max progress
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF1B2755),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Spacer(flex: 1),
-              // Circular countdown & locked mascot
-              SizedBox(
-                width: 240,
-                height: 240,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Outer static circle
-                    Container(
-                      width: 220,
-                      height: 220,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey.withOpacity(0.2), width: 4),
-                      ),
-                    ),
-                    // Progress arc (countdown timer)
-                    TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 1.0, end: progressFraction),
-                      duration: const Duration(milliseconds: 500),
-                      builder: (context, value, child) {
-                        return CustomPaint(
-                          size: const Size(220, 220),
-                          painter: _TimerProgressPainter(progress: value),
-                        );
-                      },
-                    ),
-                    // Locked mascot with pulse breathing effect
-                    ScaleTransition(
-                      scale: _pulseAnimation,
-                      child: Image.asset(
-                        'assets/mascot-locked.png',
-                        width: 170,
-                        height: 170,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
-                          Icons.lock_outline,
-                          size: 100,
-                          color: Color(0xFFA5C0DD),
+    return PopScope(
+      canPop: false, // Disables back button lock-out
+      child: Scaffold(
+        backgroundColor: const Color(0xFF131E3D), // Deep dark navy blue matching the mock
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            child: Column(
+              children: [
+                const Spacer(flex: 3),
+
+                // Beautiful Mascot Circle with progress ring
+                ScaleTransition(
+                  scale: _pulseAnimation,
+                  child: SizedBox(
+                    width: 250,
+                    height: 250,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Progress ring
+                        Positioned.fill(
+                          child: CustomPaint(
+                            painter: _OuterRingPainter(progress: progressFraction),
+                          ),
                         ),
+                        // Mascot display
+                        Container(
+                          width: 218,
+                          height: 218,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFF1B2755),
+                          ),
+                          child: ClipOval(
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Image.asset(
+                                'assets/mascot-limit.png',
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  Icons.lock_outline,
+                                  size: 110,
+                                  color: Color(0xFFA5C0DD),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const Spacer(flex: 2),
+
+                // Title: Time Limit Reached!
+                const Text(
+                  'Time Limit Reached!',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                // Description
+                const Text(
+                  "You’ve reached your daily limit\nfor TikTok",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xFFBACAE6),
+                    height: 1.3,
+                  ),
+                ),
+
+                const Spacer(flex: 4),
+
+                // Start Challenge Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/challenge');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1C3F95),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 36),
-
-              const Text(
-                'Time Limit Reached!',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                "You've reached your daily limit for TikTok",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                ),
-              ),
-              const SizedBox(height: 36),
-
-              // Start Challenge Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/challenge');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF204A94),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 3,
-                  ),
-                  child: const Text(
-                    'Start Challenge',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    child: const Text(
+                      'Start Challenge',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
-              // Remind Me Later (Back or Close)
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFFA5C0DD),
-                    side: const BorderSide(color: Color(0xFFA5C0DD)),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                // Remind Me Later Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/home');
+                    },
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      side: const BorderSide(color: Color(0xFF2E3B5E), width: 1.5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'Remind Me Later',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    child: const Text(
+                      'Remind Me Later',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
+                const SizedBox(height: 20),
 
-              // Cooldown countdown text
-              Text(
-                'or wait ${_formatTime(_timeLeft)}',
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white54,
+                // Countdown Text
+                Text(
+                  'or wait ${_formatTime(_timeLeft)}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF7D8FA9),
+                  ),
                 ),
-              ),
-              const Spacer(flex: 1),
-            ],
+                const Spacer(flex: 1),
+              ],
+            ),
           ),
         ),
       ),
@@ -206,28 +214,37 @@ class _LimitReachedScreenState extends State<LimitReachedScreen> with SingleTick
   }
 }
 
-class _TimerProgressPainter extends CustomPainter {
+class _OuterRingPainter extends CustomPainter {
   final double progress;
-
-  _TimerProgressPainter({required this.progress});
+  _OuterRingPainter({required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = min(size.width / 2, size.height / 2) - 4;
+    final radius = min(size.width / 2, size.height / 2) - 8;
 
-    final paint = Paint()
-      ..color = const Color(0xFFA5C0DD)
-      ..strokeWidth = 4
+    // Background circle (light blue progress track)
+    final bgPaint = Paint()
+      ..color = const Color(0xFF38BDF8)
+      ..strokeWidth = 10
+      ..style = PaintingStyle.stroke;
+
+    // Active progress arc (white)
+    final activePaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 10
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
+    canvas.drawCircle(center, radius, bgPaint);
+
+    // Draw active progress arc (white) from -pi/2
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       -pi / 2,
       2 * pi * progress,
       false,
-      paint,
+      activePaint,
     );
   }
 

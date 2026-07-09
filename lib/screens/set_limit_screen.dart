@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/app_state.dart';
+import '../services/screen_time_service.dart';
 
 class SetLimitScreen extends StatefulWidget {
   const SetLimitScreen({super.key});
@@ -185,8 +186,43 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/home');
+                        onPressed: () async {
+                          final hasUsagePermission = await ScreenTimeService.checkUsagePermission();
+                          final hasOverlayPermission = await ScreenTimeService.checkOverlayPermission();
+                          if (hasUsagePermission && hasOverlayPermission) {
+                            final packages = activeApps.map((a) {
+                              if (a.name.toLowerCase() == 'tiktok') {
+                                return 'com.zhiliaoapp.musically';
+                              } else if (a.name.toLowerCase() == 'instagram') {
+                                return 'com.instagram.android';
+                              } else if (a.name.toLowerCase() == 'youtube') {
+                                return 'com.google.android.youtube';
+                              } else if (a.name.toLowerCase() == 'facebook') {
+                                return 'com.facebook.katana';
+                              }
+                              return '';
+                            }).where((p) => p.isNotEmpty).toList();
+
+                            int timeLimitInMinutes = 15; // default fallback
+                            if (activeApps.isNotEmpty) {
+                              final limitStr = activeApps.first.timeLimit;
+                              if (limitStr.contains('hour') || limitStr.contains('h')) {
+                                if (limitStr.contains('1 h 30')) {
+                                  timeLimitInMinutes = 90;
+                                } else {
+                                  timeLimitInMinutes = 60;
+                                }
+                              } else if (limitStr.contains('min')) {
+                                final parts = limitStr.split(' ');
+                                timeLimitInMinutes = int.tryParse(parts[0]) ?? 15;
+                              }
+                            }
+
+                            await ScreenTimeService.startMonitoring(packages, timeLimitInMinutes);
+                          }
+                          if (context.mounted) {
+                            Navigator.pushReplacementNamed(context, '/home');
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF204A94),

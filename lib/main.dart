@@ -21,10 +21,12 @@ import 'screens/math_sprint_screen.dart';
 import 'screens/pattern_recall_screen.dart';
 import 'screens/settings_screen.dart';
 import 'services/auth_service.dart';
+import 'services/screen_time_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AuthService.seedDefaultUser();
+  ScreenTimeService.initialize();
   runApp(
     AppStateProvider(
       notifier: AppState(),
@@ -39,6 +41,7 @@ class ReFocusApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: ScreenTimeService.navigatorKey,
       title: 'ReFocus',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
