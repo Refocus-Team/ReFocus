@@ -3,7 +3,7 @@
 [![Flutter Version](https://img.shields.io/badge/Flutter-%E2%89%A53.0.0-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Dart Version](https://img.shields.io/badge/Dart-%E2%89%A53.0.0-0175C2?logo=dart&logoColor=white)](https://dart.dev)
 [![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web-green)](https://flutter.dev)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-namamuajalah-yellow.svg)](LICENSE)
 
 **ReFocus** adalah aplikasi produktivitas berbasis Flutter yang dirancang khusus untuk membantu pengguna melacak waktu layar (*screen time*), mengurangi kecanduan media sosial, meningkatkan fokus harian, serta melatih kedisiplinan diri secara interaktif melalui metode gamifikasi.
 
