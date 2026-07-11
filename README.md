@@ -139,7 +139,7 @@ flutter test
 
 ## 📝 Lisensi
 
-Proyek ini dilisensikan di bawah *MIT License*.
+Proyek ini dilisensikan di bawah *namamu aja lah License*.
 
 ---
 
@@ -147,4 +147,4 @@ Proyek ini dilisensikan di bawah *MIT License*.
 
 ---
 
-Dibuat dengan 💙 oleh tim **E - D - Saya** untuk membantu Anda tetap fokus.
+Dibuat dengan 💙 oleh tim **Erika - Dio - Wibi** untuk membantu Anda tetap fokus.
