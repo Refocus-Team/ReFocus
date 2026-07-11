@@ -60,37 +60,41 @@ refocus/
 ├── assets/                    # Aset gambar, ikon menu, lencana penghargaan, dan maskot burung hantu
 ├── lib/
 │   ├── models/
-│   │   ├── app_state.dart        # Pengelola status state global (Notifier) aplikasi
-│   │   └── usage_repository.dart # Repository data pemakaian aplikasi & caching
+│   │   └── app_state.dart        # Pengelola status state global (Notifier) aplikasi
 │   ├── screens/
-│   │   ├── intro_screen.dart           # Halaman pengantar fitur aplikasi (Walkthrough 1-3)
-│   │   ├── login_screen.dart           # Halaman masuk akun
-│   │   ├── signup_screen.dart          # Halaman daftar akun baru
-│   │   ├── home_screen.dart            # Halaman utama aplikasi
-│   │   ├── statistics_screen.dart      # Halaman analitik detail
-│   │   ├── challenge_menu_screen.dart  # Halaman daftar game & tantangan
-│   │   ├── challenge_play_screen.dart  # Halaman permainan Memory Match
-│   │   ├── math_sprint_screen.dart     # Halaman permainan Math Sprint
-│   │   ├── pattern_recall_screen.dart  # Halaman permainan Pattern Recall
-│   │   ├── deep_focus_screen.dart      # Halaman mode fokus Pomodoro
-│   │   ├── profile_screen.dart         # Halaman profil & pencapaian
-│   │   ├── points_screen.dart          # Halaman saldo & riwayat poin
-│   │   ├── focus_history_screen.dart   # Halaman log riwayat fokus
-│   │   ├── select_apps_screen.dart     # Halaman pemilihan aplikasi
-│   │   ├── set_limit_screen.dart       # Halaman pengaturan batas waktu
-│   │   ├── notifications_screen.dart   # Halaman notifikasi
-│   │   ├── permission_screen.dart      # Halaman izin akses
-│   │   └── settings_screen.dart        # Halaman pengaturan umum
+│   │   ├── splash_screen.dart           # Halaman splash & auto-navigasi
+│   │   ├── intro_screen.dart            # Halaman pengantar fitur aplikasi (Walkthrough 1-3)
+│   │   ├── login_screen.dart            # Halaman masuk akun
+│   │   ├── signup_screen.dart           # Halaman daftar akun baru
+│   │   ├── permission_screen.dart       # Halaman izin akses
+│   │   ├── home_screen.dart             # Halaman utama aplikasi
+│   │   ├── statistics_screen.dart       # Halaman analitik detail
+│   │   ├── challenge_menu_screen.dart   # Halaman daftar game & tantangan
+│   │   ├── challenge_play_screen.dart   # Halaman permainan Memory Match
+│   │   ├── math_sprint_screen.dart      # Halaman permainan Math Sprint
+│   │   ├── pattern_recall_screen.dart   # Halaman permainan Pattern Recall
+│   │   ├── deep_focus_screen.dart       # Halaman mode fokus Pomodoro
+│   │   ├── limit_reached_screen.dart    # Halaman notifikasi batas waktu tercapai
+│   │   ├── profile_screen.dart          # Halaman profil & pencapaian
+│   │   ├── points_screen.dart           # Halaman saldo & riwayat poin
+│   │   ├── focus_history_screen.dart    # Halaman log riwayat fokus
+│   │   ├── select_apps_screen.dart      # Halaman pemilihan aplikasi
+│   │   ├── set_limit_screen.dart        # Halaman pengaturan batas waktu
+│   │   ├── notifications_screen.dart    # Halaman notifikasi
+│   │   └── settings_screen.dart         # Halaman pengaturan umum
 │   ├── services/
-│   │   ├── auth_service.dart           # Layanan autentikasi lokal
-│   │   ├── screen_time_service.dart    # Layanan monitor waktu layar (Platform Channel)
-│   │   └── realtime_service.dart       # Layanan pembaruan data real-time
+│   │   ├── auth_service.dart            # Layanan autentikasi lokal
+│   │   ├── database_service.dart        # Layanan penyimpanan database lokal
+│   │   ├── screen_time_service.dart     # Layanan monitor waktu layar (Platform Channel)
+│   │   ├── realtime_service.dart        # Layanan pembaruan data real-time
+│   │   └── usage_repository.dart        # Repository data pemakaian aplikasi & caching
 │   ├── widgets/
-│   │   └── bottom_navigation.dart      # Widget navigasi bawah
-│   └── main.dart                       # Titik masuk utama & routing
+│   │   ├── bottom_navigation.dart       # Widget navigasi bawah
+│   │   └── custom_line_chart.dart       # Widget grafik garis kustom
+│   └── main.dart                        # Titik masuk utama & routing
 ├── test/
-│   └── widget_test.dart                # Pengujian unit smoke test
-└── README.md                           # Dokumentasi proyek
+│   └── widget_test.dart                 # Pengujian unit smoke test
+└── README.md                            # Dokumentasi proyek
 ```
 
 ---
