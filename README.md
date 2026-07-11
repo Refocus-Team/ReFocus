@@ -46,7 +46,7 @@
 | Peran | Nama | Kontribusi |
 |-------|------|------------|
 | **UI/UX Designer** | **Erika Ayu Febrianti** | Merancang seluruh tampilan antarmuka pengguna (*wireframe*, *prototype*, *design system*), menentukan alur navigasi dan pengalaman pengguna (*user flow*), serta menyusun aset desain ikon, ilustrasi maskot, dan palet warna aplikasi. |
-| **Frontend Engineer** | **Dio Lutvi Andre** | Membangun foundational code Flutter pertama sebelum masuk tahap prompt — mencakup struktur awal *screens*, *widgets*, *routing*, dan integrasi dasar *state management*. |
+| **Frontend Engineer** | **Dio Lutvi Andre** | Membangun foundational code Flutter mencakup struktur awal *screens*, *widgets*, *routing*, dan integrasi dasar *state management*. |
 | **Backend Engineer** | **Sofa Chasani Wibisono** | Melanjutkan dan menyelesaikan pengembangan setelah tahap awal Dio: integrasi *real-time service*, logika *gamifikasi* dan poin, sistem *streak*, koneksi *Platform Channel* untuk *screen time monitoring*, optimasi performa, *bug fixing*, pembersihan *deprecation warnings*, serta finalisasi seluruh fitur hingga **0 analyzer issues**. |
 
 > **Catatan Alur Pengerjaan:** Proyek dikerjakan secara bertahap — **Erika** (UI/UX) menyelesaikan desain terlebih dahulu, dilanjutkan **Dio** (FE) membangun kerangka antarmuka murni secara mandiri, kemudian **Wibi** (BE) mengambil alih untuk mengintegrasikan logika backend, layanan *real-time*, dan menyempurnakan keseluruhan aplikasi hingga tahap rilis.
