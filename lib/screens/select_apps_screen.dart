@@ -103,12 +103,12 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: app.checked ? const Color(0xFF204A94) : const Color(0xFF1B2755).withOpacity(0.15),
+                            color: app.checked ? const Color(0xFF204A94) : const Color(0xFF1B2755).withValues(alpha: 0.15),
                             width: app.checked ? 2.0 : 1.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.02),
+                              color: Colors.black.withValues(alpha: 0.02),
                               blurRadius: 8,
                               offset: const Offset(0, 4),
                             ),
@@ -192,7 +192,7 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
                             borderRadius: BorderRadius.circular(16),
                           ),
                           elevation: 3,
-                          shadowColor: const Color(0xFF204A94).withOpacity(0.3),
+                          shadowColor: const Color(0xFF204A94).withValues(alpha: 0.3),
                         ),
                         child: const Text(
                           'Continue',

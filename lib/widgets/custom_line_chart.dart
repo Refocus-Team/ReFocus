@@ -67,7 +67,7 @@ class _LineChartPainter extends CustomPainter {
 
     // Paint for background grid lines (optional, let's draw a light bottom axis)
     final Paint axisPaint = Paint()
-      ..color = Colors.grey.withOpacity(0.15)
+      ..color = Colors.grey.withValues(alpha: 0.15)
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
     canvas.drawLine(
@@ -111,8 +111,8 @@ class _LineChartPainter extends CustomPainter {
         Offset(size.width / 2, padT),
         Offset(size.width / 2, padT + chartH),
         [
-          const Color(0xFF38BDF8).withOpacity(0.35),
-          const Color(0xFF38BDF8).withOpacity(0.0),
+          const Color(0xFF38BDF8).withValues(alpha: 0.35),
+          const Color(0xFF38BDF8).withValues(alpha: 0.0),
         ],
       )
       ..style = PaintingStyle.fill;
@@ -140,7 +140,7 @@ class _LineChartPainter extends CustomPainter {
       final Offset p = points[i];
 
       // Draw outer point (shadow effect)
-      canvas.drawCircle(p, 5.5, Paint()..color = const Color(0xFF38BDF8).withOpacity(0.2));
+      canvas.drawCircle(p, 5.5, Paint()..color = const Color(0xFF38BDF8).withValues(alpha: 0.2));
       // Draw inner point
       canvas.drawCircle(p, 4.0, dotFillPaint);
       canvas.drawCircle(p, 2.0, dotStrokePaint);

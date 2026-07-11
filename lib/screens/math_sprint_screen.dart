@@ -233,9 +233,9 @@ class _MathSprintScreenState extends State<MathSprintScreen> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(32),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.08),
+                        color: Colors.white.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: Colors.white.withOpacity(0.15)),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
                       ),
                       child: Center(
                         child: Column(
@@ -307,7 +307,7 @@ class _MathSprintScreenState extends State<MathSprintScreen> {
             // Game Completed overlay
             if (_gameCompleted)
               Container(
-                color: Colors.black.withOpacity(0.75),
+                color: Colors.black.withValues(alpha: 0.75),
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -376,7 +376,7 @@ class _MathSprintScreenState extends State<MathSprintScreen> {
             // Failed overlay
             if (_failed)
               Container(
-                color: Colors.black.withOpacity(0.75),
+                color: Colors.black.withValues(alpha: 0.75),
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -384,7 +384,7 @@ class _MathSprintScreenState extends State<MathSprintScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1B2755),
                       borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: Colors.red.withOpacity(0.5), width: 1.5),
+                      border: Border.all(color: Colors.red.withValues(alpha: 0.5), width: 1.5),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import java.util.HashMap
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
@@ -25,7 +26,7 @@ import java.util.Calendar
 class AppMonitorService : Service() {
     private val handler = Handler(Looper.getMainLooper())
     private var targetPackages: List<String> = emptyList()
-    private var timeLimitInMinutes: Int = 15 // default
+    private var timeLimits: Map<String, Int> = emptyMap()
 
     private var windowManager: WindowManager? = null
     private var floatingView: View? = null
@@ -34,7 +35,7 @@ class AppMonitorService : Service() {
     private val checkRunnable = object : Runnable {
         override fun run() {
             checkScreenTime()
-            handler.postDelayed(this, 3000) // check every 3 seconds for smoother UI response
+            handler.postDelayed(this, 3000)
         }
     }
 
@@ -43,10 +44,12 @@ class AppMonitorService : Service() {
         createNotificationChannel()
     }
 
+    @Suppress("DEPRECATION")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent != null) {
             targetPackages = intent.getStringArrayListExtra("packages") ?: emptyList()
-            timeLimitInMinutes = intent.getIntExtra("timeLimitInMinutes", 15)
+            val raw = intent.getSerializableExtra("timeLimits") as? HashMap<String, Int>
+            timeLimits = raw ?: emptyMap()
         }
 
         startForegroundServiceNotification()
@@ -64,6 +67,30 @@ class AppMonitorService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
+    }
+
+    private fun getDailyUsageStats(): Map<String, Long> {
+        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as? UsageStatsManager ?: return emptyMap()
+        val calendar = Calendar.getInstance()
+        val endTime = calendar.timeInMillis
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        val startTime = calendar.timeInMillis
+        val usageStats = usageStatsManager.queryUsageStats(
+            UsageStatsManager.INTERVAL_DAILY,
+            startTime,
+            endTime
+        ) ?: return emptyMap()
+        val result = mutableMapOf<String, Long>()
+        for (stat in usageStats) {
+            val minutes = stat.totalTimeInForeground / 1000 / 60
+            if (minutes > 0) {
+                result[stat.packageName ?: ""] = minutes
+            }
+        }
+        return result
     }
 
     private fun checkScreenTime() {
@@ -92,20 +119,19 @@ class AppMonitorService : Service() {
                 }
             }
             val timeInMinutes = timeInForegroundMs / 1000 / 60
+            val appLimit = timeLimits[packageName] ?: 15
 
             if (isAppInForeground(packageName)) {
                 isAnyTargetAppActive = true
 
-                if (timeInMinutes >= timeLimitInMinutes) {
+                if (timeInMinutes >= appLimit) {
                     handler.post { hideFloatingWidget() }
                     
-                    // Send broadcast to MainActivity
                     val broadcastIntent = Intent("com.example.refocus.LIMIT_REACHED").apply {
                         putExtra("packageName", packageName)
                     }
                     sendBroadcast(broadcastIntent)
 
-                    // Launch ReFocus app to front
                     val launchIntent = Intent(this, MainActivity::class.java).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -116,7 +142,14 @@ class AppMonitorService : Service() {
             }
         }
 
-        // Show/Hide floating icon based on whether a monitored app is active
+        // Kirim usage stats update ke Flutter via broadcast
+        val allStats = getDailyUsageStats()
+        val statsMap = HashMap<String, Long>(allStats)
+        val statsIntent = Intent("com.example.refocus.USAGE_STATS_UPDATE").apply {
+            putExtra("stats", statsMap)
+        }
+        sendBroadcast(statsIntent)
+
         val hasOverlayPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Settings.canDrawOverlays(this)
         } else {

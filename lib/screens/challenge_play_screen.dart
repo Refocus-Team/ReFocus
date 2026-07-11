@@ -14,7 +14,7 @@ class _ChallengePlayScreenState extends State<ChallengePlayScreen> {
   late List<String> _cards;
   late List<bool> _cardFlipped;
   late List<bool> _cardMatched;
-  List<int> _selectedIndices = [];
+  final List<int> _selectedIndices = [];
 
   int _timeLeft = 90;
   Timer? _timer;
@@ -23,7 +23,7 @@ class _ChallengePlayScreenState extends State<ChallengePlayScreen> {
 
   final List<String> _iconsList = [
     'coin-icon.png',
-    'coin-icon.png',
+    'coin-icon.png',  
     'icon-usage.png',
     'icon-usage.png',
     'apple-icon.png',
@@ -222,7 +222,8 @@ class _ChallengePlayScreenState extends State<ChallengePlayScreen> {
                   // Cards Grid
                   Expanded(
                     child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
+                      // MODIFIKASI: Mengubah dari NeverScrollableScrollPhysics agar bisa di-scroll
+                      physics: const BouncingScrollPhysics(), 
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 12,
@@ -282,7 +283,7 @@ class _ChallengePlayScreenState extends State<ChallengePlayScreen> {
             // Game Completed Victory Modal overlay
             if (_gameCompleted)
               Container(
-                color: Colors.black.withOpacity(0.75),
+                color: Colors.black.withValues(alpha: 0.75),
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -431,7 +432,7 @@ class _MemoryCardState extends State<MemoryCard> with SingleTickerProviderStateM
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -451,7 +452,7 @@ class _MemoryCardState extends State<MemoryCard> with SingleTickerProviderStateM
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
+                          color: Colors.black.withValues(alpha: 0.15),
                           blurRadius: 6,
                           offset: const Offset(0, 3),
                         ),

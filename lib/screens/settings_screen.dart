@@ -54,10 +54,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey.withOpacity(0.15), width: 1.5),
+                  border: Border.all(color: Colors.grey.withValues(alpha: 0.15), width: 1.5),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.02),
+                      color: Colors.black.withValues(alpha: 0.02),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -137,10 +137,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey.withOpacity(0.15), width: 1.5),
+                  border: Border.all(color: Colors.grey.withValues(alpha: 0.15), width: 1.5),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.02),
+                      color: Colors.black.withValues(alpha: 0.02),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -272,7 +272,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Divider(
       height: 1,
       thickness: 1,
-      color: Colors.grey.withOpacity(0.15),
+      color: Colors.grey.withValues(alpha: 0.15),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/app_state.dart';
 import '../services/screen_time_service.dart';
+import '../services/usage_repository.dart';
 
 class SetLimitScreen extends StatefulWidget {
   const SetLimitScreen({super.key});
@@ -110,7 +111,7 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                         border: Border.all(color: const Color(0xFF1B2755)),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.01),
+                            color: Colors.black.withValues(alpha: 0.01),
                             blurRadius: 6,
                             offset: const Offset(0, 3),
                           ),
@@ -190,35 +191,18 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                           final hasUsagePermission = await ScreenTimeService.checkUsagePermission();
                           final hasOverlayPermission = await ScreenTimeService.checkOverlayPermission();
                           if (hasUsagePermission && hasOverlayPermission) {
-                            final packages = activeApps.map((a) {
-                              if (a.name.toLowerCase() == 'tiktok') {
-                                return 'com.zhiliaoapp.musically';
-                              } else if (a.name.toLowerCase() == 'instagram') {
-                                return 'com.instagram.android';
-                              } else if (a.name.toLowerCase() == 'youtube') {
-                                return 'com.google.android.youtube';
-                              } else if (a.name.toLowerCase() == 'facebook') {
-                                return 'com.facebook.katana';
-                              }
-                              return '';
-                            }).where((p) => p.isNotEmpty).toList();
+                            final packages = <String>[];
+                            final timeLimits = <String, int>{};
 
-                            int timeLimitInMinutes = 15; // default fallback
-                            if (activeApps.isNotEmpty) {
-                              final limitStr = activeApps.first.timeLimit;
-                              if (limitStr.contains('hour') || limitStr.contains('h')) {
-                                if (limitStr.contains('1 h 30')) {
-                                  timeLimitInMinutes = 90;
-                                } else {
-                                  timeLimitInMinutes = 60;
-                                }
-                              } else if (limitStr.contains('min')) {
-                                final parts = limitStr.split(' ');
-                                timeLimitInMinutes = int.tryParse(parts[0]) ?? 15;
+                            for (final app in activeApps) {
+                              final pkg = UsageRepository.appNameToPackage(app.name);
+                              if (pkg != null && pkg.isNotEmpty) {
+                                packages.add(pkg);
+                                timeLimits[pkg] = state.parseLimitToMinutes(app.timeLimit);
                               }
                             }
 
-                            await ScreenTimeService.startMonitoring(packages, timeLimitInMinutes);
+                            await ScreenTimeService.startMonitoring(packages, timeLimits);
                           }
                           if (context.mounted) {
                             Navigator.pushReplacementNamed(context, '/home');
@@ -232,7 +216,7 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                             borderRadius: BorderRadius.circular(16),
                           ),
                           elevation: 3,
-                          shadowColor: const Color(0xFF204A94).withOpacity(0.3),
+                          shadowColor: const Color(0xFF204A94).withValues(alpha: 0.3),
                         ),
                         child: const Text(
                           'Save & Start',

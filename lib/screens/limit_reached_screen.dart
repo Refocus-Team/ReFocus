@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../services/usage_repository.dart';
 
 class LimitReachedScreen extends StatefulWidget {
   const LimitReachedScreen({super.key});
@@ -10,14 +11,24 @@ class LimitReachedScreen extends StatefulWidget {
 }
 
 class _LimitReachedScreenState extends State<LimitReachedScreen> with SingleTickerProviderStateMixin {
-  int _timeLeft = 900; // 15 minutes in seconds (15 * 60)
+  int _timeLeft = 900;
   Timer? _timer;
+  String _appName = 'this app';
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final pkg = ModalRoute.of(context)?.settings.arguments as String?;
+      if (pkg != null && pkg.isNotEmpty) {
+        setState(() {
+          _appName = UsageRepository.packageToAppName(pkg);
+        });
+      }
+    });
     _startTimer();
 
     _pulseController = AnimationController(
@@ -130,10 +141,10 @@ class _LimitReachedScreenState extends State<LimitReachedScreen> with SingleTick
                 const SizedBox(height: 12),
 
                 // Description
-                const Text(
-                  "You’ve reached your daily limit\nfor TikTok",
+                Text(
+                  "You've reached your daily limit\nfor $_appName",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Color(0xFFBACAE6),
                     height: 1.3,

@@ -91,7 +91,7 @@ class _PointsScreenState extends State<PointsScreen> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF1B2755).withOpacity(0.35),
+                          color: const Color(0xFF1B2755).withValues(alpha: 0.35),
                           blurRadius: 15,
                           offset: const Offset(0, 8),
                         ),
@@ -161,7 +161,7 @@ class _PointsScreenState extends State<PointsScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: isEligible ? Colors.green : Colors.grey.withOpacity(0.2),
+                              color: isEligible ? Colors.green : Colors.grey.withValues(alpha: 0.2),
                               width: isEligible ? 2.0 : 1.0,
                             ),
                           ),
@@ -230,7 +230,7 @@ class _PointsScreenState extends State<PointsScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                          border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -287,7 +287,7 @@ class _PointsScreenState extends State<PointsScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.01),
+              color: Colors.black.withValues(alpha: 0.01),
               blurRadius: 6,
               offset: const Offset(0, 3),
             ),

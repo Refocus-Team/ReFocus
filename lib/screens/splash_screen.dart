@@ -13,7 +13,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _floatAnimation;
-  late Animation<double> _fadeAnimation;
   Timer? _navigationTimer;
 
   @override
@@ -27,13 +26,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _floatAnimation = Tween<double>(begin: 0, end: -15).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0, 0.5, curve: Curves.easeIn),
-      ),
     );
 
     // Auto-navigate to intro or home after 3 seconds checking SharedPreferences

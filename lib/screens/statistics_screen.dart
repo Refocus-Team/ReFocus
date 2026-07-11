@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/app_state.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/custom_line_chart.dart';
+import '../services/usage_repository.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -49,12 +50,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         : BoxDecoration(
             color: Colors.white,
             borderRadius: const BorderRadius.all(Radius.circular(20)),
-            border: Border.all(color: Colors.grey.withOpacity(0.08)),
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
           );
 
-    final textLabelColor = isGradient ? Colors.white.withOpacity(0.8) : Colors.grey;
+    final textLabelColor = isGradient ? Colors.white.withValues(alpha: 0.8) : Colors.grey;
     final textValueColor = isGradient ? Colors.white : const Color(0xFF1B2755);
-    final textSubColor = isGradient ? Colors.white.withOpacity(0.85) : const Color(0xFF204A94);
+    final textSubColor = isGradient ? Colors.white.withValues(alpha: 0.85) : const Color(0xFF204A94);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -180,49 +181,48 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.only(bottom: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Top Banner
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 28),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF1B2755),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40),
-                      ),
-                    ),
-                    child: Stack(
-                      clipBehavior: Clip.none,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Top Banner
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 28),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF1B2755),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Statistik',
-                              style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.55,
-                              child: const Text(
-                                'Lacak kemajuan Anda dan bangun kebiasaan digital yang lebih baik.',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.white70,
-                                  height: 1.3,
-                                ),
+                        const Text(
+                          'Statistik',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.55,
+                          child: const Text(
+                            'Lacak kemajuan Anda dan bangun kebiasaan digital yang lebih baik.',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white70,
+                              height: 1.3,
+								            ),
                               ),
                             ),
                           ],
                         ),
-                        // Stats mascot absolute (on the right)
                         Positioned(
                           bottom: -28,
                           right: -12,
@@ -285,92 +285,109 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (_activeTab == 'Ikhtisar') ...[
-                          GridView.count(
-                            crossAxisCount: 2,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                            childAspectRatio: 1.3,
+                          // SOLUSI FIXED: Mengganti GridView dengan kombinasi Row + Column + Expanded agar tinggi kartu adaptif mengikuti isi konten
+                          Column(
                             children: [
-                              _buildMetricCard(label: "Focus Score", value: "82%", subtitle: "↗ +12% vs last week"),
-                              _buildMetricCard(label: "Daily Average", value: "3h 42m", subtitle: "Down by 45m", isGradient: true),
-                              // Card with MiniBarChart
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Colors.grey.withOpacity(0.08)),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Today’s Screen Time", style: TextStyle(fontSize: 11, color: Color(0xFF204A94), fontWeight: FontWeight.bold)),
-                                    const SizedBox(height: 4),
-                                    const Text("1h 42m", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black)),
-                                    const SizedBox(height: 2),
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.arrow_downward, color: Color(0xFF10B981), size: 12),
-                                        const SizedBox(width: 2),
-                                        const Text(
-                                          '10%',
-                                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981)),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        const Text(
-                                          'from yesterday',
-                                          style: TextStyle(fontSize: 10, color: Color(0xFF38BDF8), fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                    _buildMiniBarChart(),
-                                  ],
-                                ),
+                              // Baris 1: Focus Score & Daily Average
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(child: _buildMetricCard(label: "Focus Score", value: "${state.focusScore}%", subtitle: "Today's score")),
+                                  const SizedBox(width: 16),
+                                  Expanded(child: _buildMetricCard(label: "Screen Time", value: state.totalScreenTimeFormatted, subtitle: "Today", isGradient: true)),
+                                ],
                               ),
-                              // Card with StreakCircles
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Colors.grey.withOpacity(0.08)),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Current Streak", style: TextStyle(fontSize: 11, color: Color(0xFF204A94), fontWeight: FontWeight.bold)),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      textBaseline: TextBaseline.alphabetic,
-                                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                                      children: [
-                                        const Text(
-                                          '7',
-                                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        const Text(
-                                          'Days',
-                                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
-                                        ),
-                                      ],
+                              const SizedBox(height: 16),
+                              // Baris 2: Today's Screen Time & Current Streak
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Card with MiniBarChart
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text("Today’s Screen Time", style: TextStyle(fontSize: 11, color: Color(0xFF204A94), fontWeight: FontWeight.bold)),
+                                          const SizedBox(height: 4),
+                                          Text(state.totalScreenTimeFormatted, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black)),
+                                          const SizedBox(height: 2),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.arrow_downward, color: Color(0xFF10B981), size: 12),
+                                              const SizedBox(width: 2),
+                                              Text(
+                                                '${state.focusScore}%',
+                                                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981)),
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Expanded(
+                                                child: Text(
+                                                  'focus score',
+                                                  style: const TextStyle(fontSize: 10, color: Color(0xFF38BDF8), fontWeight: FontWeight.bold),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          _buildMiniBarChart(),
+                                        ],
+                                      ),
                                     ),
-                                    const SizedBox(height: 2),
-                                    Row(
-                                      children: [
-                                        const Text('🔥', style: TextStyle(fontSize: 12)),
-                                        const SizedBox(width: 2),
-                                        const Text(
-                                          'Keep it up!',
-                                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFF97316)),
-                                        ),
-                                      ],
+                                  ),
+                                  const SizedBox(width: 16),
+                                  // Card with StreakCircles
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text("Current Streak", style: TextStyle(fontSize: 11, color: Color(0xFF204A94), fontWeight: FontWeight.bold)),
+                                          const SizedBox(height: 4),
+                                          Row(
+                                            textBaseline: TextBaseline.alphabetic,
+                                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                                            children: [
+                                              Text(
+                                                '${state.streakDays}',
+                                                style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
+                                              ),
+                                              const SizedBox(width: 4),
+                                              const Text(
+                                                'Days',
+                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 2),
+                                          const Row(
+                                            children: [
+                                              Text('🔥', style: TextStyle(fontSize: 12)),
+                                              SizedBox(width: 2),
+                                              Text(
+                                                'Keep it up!',
+                                                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFF97316)),
+                                              ),
+                                            ],
+                                          ),
+                                          _buildStreakCircles(),
+                                        ],
+                                      ),
                                     ),
-                                    _buildStreakCircles(),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -381,7 +398,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                              border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -411,16 +428,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             ),
                           ),
                         ] else if (_activeTab == 'Harian') ...[
-                          GridView.count(
-                            crossAxisCount: 2,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                            childAspectRatio: 1.3,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildMetricCard(label: "Today vs Yesterday", value: "85%", subtitle: "Naik 5%"),
-                              _buildMetricCard(label: "Total Screen Time", value: "1h 42m", subtitle: "Today", isGradient: true),
+                              Expanded(child: _buildMetricCard(label: "Today's Focus Score", value: "${state.focusScore}%", subtitle: "Current score")),
+                              const SizedBox(width: 16),
+                              Expanded(child: _buildMetricCard(label: "Total Screen Time", value: state.totalScreenTimeFormatted, subtitle: "Today", isGradient: true)),
                             ],
                           ),
                           const SizedBox(height: 16),
@@ -429,7 +442,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                              border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -442,16 +455,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             ),
                           ),
                         ] else if (_activeTab == 'Mingguan') ...[
-                          GridView.count(
-                            crossAxisCount: 2,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                            childAspectRatio: 1.3,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildMetricCard(label: "Rata-rata Minggu Ini", value: "3h 15m", subtitle: "Turun 30m dari minggu lalu"),
-                              _buildMetricCard(label: "Hari Terbaik", value: "Jumat", subtitle: "Fokus tertinggi!", isGradient: true),
+                              Expanded(child: _buildMetricCard(label: "Rata-rata Minggu Ini", value: state.totalScreenTimeFormatted, subtitle: "Screen time today")),
+                                  const SizedBox(width: 16),
+                                  Expanded(child: _buildMetricCard(label: "Focus Score", value: "${state.focusScore}%", subtitle: "Today", isGradient: true)),
                             ],
                           ),
                           const SizedBox(height: 16),
@@ -460,7 +469,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                              border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -501,7 +510,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                              border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -548,6 +557,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           itemCount: apps.length > 4 ? 4 : apps.length,
                           itemBuilder: (context, index) {
                             final app = apps[index];
+                            final usedMinutes = UsageRepository.instance.getUsageMinutes(app.name);
+                            final limitMinutes = state.parseLimitToMinutes(app.timeLimit);
+                            final timeLabel = limitMinutes > 0
+                                ? '${UsageRepository.instance.formatMinutes(usedMinutes)}/${app.timeLimit}'
+                                : UsageRepository.instance.formatMinutes(usedMinutes);
+                            final progressValue = limitMinutes > 0
+                                ? (usedMinutes / limitMinutes).clamp(0.0, 1.0)
+                                : 0.0;
                             return Container(
                               margin: const EdgeInsets.only(bottom: 14),
                               child: Row(
@@ -577,13 +594,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              app.name == 'Instagram'
-                                                  ? '20m/30m'
-                                                  : app.name == 'TikTok'
-                                                      ? '31m/1h'
-                                                      : app.name == 'YouTube'
-                                                          ? '1h/1h 30min'
-                                                          : '50m/50m',
+                                              timeLabel,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Color(0xFF204A94),
@@ -596,16 +607,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                               decoration: BoxDecoration(
                                                 color: const Color(0xFFE0F2FE),
                                                 borderRadius: BorderRadius.circular(6),
-                                                border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.5)),
+                                                border: Border.all(color: const Color(0xFF38BDF8).withValues(alpha: 0.5)),
                                               ),
                                               child: Text(
-                                                app.name == 'Instagram'
-                                                    ? '90%'
-                                                    : app.name == 'TikTok'
-                                                        ? '25%'
-                                                        : app.name == 'YouTube'
-                                                            ? '85%'
-                                                            : '100%',
+                                                '${app.progress}%',
                                                 style: const TextStyle(
                                                   color: Color(0xFF204A94),
                                                   fontWeight: FontWeight.bold,
@@ -624,13 +629,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(3),
                                             child: LinearProgressIndicator(
-                                              value: app.name == 'Instagram'
-                                                  ? 20 / 30
-                                                  : app.name == 'TikTok'
-                                                      ? 31 / 60
-                                                      : app.name == 'YouTube'
-                                                          ? 60 / 90
-                                                          : 50 / 50,
+                                              value: progressValue,
                                               backgroundColor: Colors.grey[200],
                                               color: const Color(0xFF38BDF8),
                                             ),
@@ -647,10 +646,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
+            ],
           ),
+        ),
+      ),
       bottomNavigationBar: const BottomNavigation(activePage: 'statistics'),
     );
   }

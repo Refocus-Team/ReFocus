@@ -13,8 +13,8 @@ class PatternRecallScreen extends StatefulWidget {
 class _PatternRecallScreenState extends State<PatternRecallScreen> {
   int _level = 1;
   final int _maxLevels = 4; // Length 3, 4, 5, 6
-  List<int> _sequence = [];
-  List<int> _userSequence = [];
+  final List<int> _sequence = [];
+  final List<int> _userSequence = [];
   bool _isDisplayingSequence = false;
   bool _isGameActive = false;
   bool _gameCompleted = false;
@@ -223,18 +223,18 @@ class _PatternRecallScreenState extends State<PatternRecallScreen> {
                                 decoration: BoxDecoration(
                                   color: isFlashing
                                       ? const Color(0xFF38BDF8)
-                                      : Colors.white.withOpacity(0.08),
+                                      : Colors.white.withValues(alpha: 0.08),
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
                                     color: isFlashing
                                         ? const Color(0xFF38BDF8)
-                                        : Colors.white.withOpacity(0.15),
+                                        : Colors.white.withValues(alpha: 0.15),
                                     width: 2,
                                   ),
                                   boxShadow: isFlashing
                                       ? [
                                           BoxShadow(
-                                            color: const Color(0xFF38BDF8).withOpacity(0.6),
+                                            color: const Color(0xFF38BDF8).withValues(alpha: 0.6),
                                             blurRadius: 20,
                                             spreadRadius: 2,
                                           )
@@ -263,7 +263,7 @@ class _PatternRecallScreenState extends State<PatternRecallScreen> {
             // Game Completed overlay
             if (_gameCompleted)
               Container(
-                color: Colors.black.withOpacity(0.75),
+                color: Colors.black.withValues(alpha: 0.75),
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -332,7 +332,7 @@ class _PatternRecallScreenState extends State<PatternRecallScreen> {
             // Failed overlay
             if (_failed)
               Container(
-                color: Colors.black.withOpacity(0.75),
+                color: Colors.black.withValues(alpha: 0.75),
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -340,7 +340,7 @@ class _PatternRecallScreenState extends State<PatternRecallScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1B2755),
                       borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: Colors.red.withOpacity(0.5), width: 1.5),
+                      border: Border.all(color: Colors.red.withValues(alpha: 0.5), width: 1.5),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_state.dart';
 import '../widgets/bottom_navigation.dart';
 
@@ -11,145 +10,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-  void _showSettingsBottomSheet(BuildContext context, AppState state) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Settings',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1B2755),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Deep Work Mode Toggle (New Feature!)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Deep Work Mode',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1B2755),
-                            ),
-                          ),
-                          SizedBox(height: 2),
-                          Text(
-                            'Blokir semua notifikasi sosial media secara paksa',
-                            style: TextStyle(fontSize: 11, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      Switch(
-                        value: state.deepWorkMode,
-                        activeColor: const Color(0xFF204A94),
-                        onChanged: (val) {
-                          setModalState(() {
-                            state.toggleDeepWorkMode(val);
-                          });
-                          setState(() {}); // Rebuild parent screen too
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Divider(),
-                  const SizedBox(height: 12),
-
-                  // Profile Info mockup
-                  const Row(
-                    children: [
-                      Icon(Icons.person_outline, color: Color(0xFF204A94)),
-                      SizedBox(width: 12),
-                      Text(
-                        'Edit Account Info',
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1B2755)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  const Row(
-                    children: [
-                      Icon(Icons.shield_outlined, color: Color(0xFF204A94)),
-                      SizedBox(width: 12),
-                      Text(
-                        'Privacy & Security',
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1B2755)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Divider(),
-                  const SizedBox(height: 12),
-                  GestureDetector(
-                    onTap: () async {
-                      Navigator.pop(context); // Close bottom sheet
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setBool('isLoggedIn', false);
-                      await prefs.setString('loggedInUserName', '');
-                      if (context.mounted) {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/login',
-                          (route) => false,
-                        );
-                      }
-                    },
-                    child: const Row(
-                      children: [
-                        Icon(Icons.logout, color: Colors.red),
-                        SizedBox(width: 12),
-                        Text(
-                          'Logout / Keluar',
-                          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.red),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.08),
+                              color: Colors.black.withValues(alpha: 0.08),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -224,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             shape: BoxShape.circle,
                             border: Border.all(color: const Color(0xFF1C3F95), width: 1.5),
                             boxShadow: [
-                              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, 2)),
+                              BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 4, offset: const Offset(0, 2)),
                             ],
                           ),
                           child: const Icon(
@@ -248,9 +108,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  const Text(
-                    'Level 5 | Focus Master',
-                    style: TextStyle(
+                  Text(
+                    'Level ${(state.points ~/ 100) + 1} | Focus ${state.focusScore > 70 ? "Master" : state.focusScore > 40 ? "Learner" : "Starter"}',
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1C3F95),
@@ -268,17 +128,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 10,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
-                            child: const LinearProgressIndicator(
-                              value: 520 / 800,
-                              backgroundColor: Color(0xFFE2E8F5),
-                              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1C3F95)),
+                            child: LinearProgressIndicator(
+                              value: (state.points % 100) / 100.0,
+                              backgroundColor: const Color(0xFFE2E8F5),
+                              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF1C3F95)),
                             ),
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          '520/800 XP',
-                          style: TextStyle(
+                        Text(
+                          '${state.points % 100}/100 XP',
+                          style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF1C3F95),
@@ -295,21 +155,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: Colors.grey.withOpacity(0.12), width: 1.5),
+                      border: Border.all(color: Colors.grey.withValues(alpha: 0.12), width: 1.5),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: 0.04),
                           blurRadius: 15,
                           offset: const Offset(0, 6),
                         ),
                       ],
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
-                            Text(
+                            const Text(
                               'Focus Score',
                               style: TextStyle(
                                 fontSize: 13,
@@ -317,10 +177,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 color: Color(0xFF1C3F95),
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
-                              '82',
-                              style: TextStyle(
+                              '${state.focusScore}',
+                              style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF1C3F95),
@@ -330,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Column(
                           children: [
-                            Text(
+                            const Text(
                               'Streak',
                               style: TextStyle(
                                 fontSize: 13,
@@ -338,10 +198,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 color: Color(0xFF1C3F95),
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
-                              '7 Days',
-                              style: TextStyle(
+                              '${state.streakDays} Days',
+                              style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF1C3F95),
@@ -351,18 +211,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Column(
                           children: [
-                            Text(
-                              'Challenge',
+                            const Text(
+                              'Points',
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF1C3F95),
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
-                              '12',
-                              style: TextStyle(
+                              '${state.points}',
+                              style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF1C3F95),
@@ -447,10 +307,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey.withOpacity(0.12), width: 1.5),
+                      border: Border.all(color: Colors.grey.withValues(alpha: 0.12), width: 1.5),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: 0.04),
                           blurRadius: 15,
                           offset: const Offset(0, 6),
                         ),
@@ -478,7 +338,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           trailing: const Icon(Icons.chevron_right, color: Color(0xFF1C3F95), size: 22),
                         ),
-                        Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
+                        Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
                         // My Points
                         ListTile(
                           onTap: () => Navigator.pushNamed(context, '/points'),

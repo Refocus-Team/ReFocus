@@ -48,6 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
       await prefs.setBool('isLoggedIn', true);
       await prefs.setString('loggedInUserName', user['name'] ?? 'User');
 
+      if (!mounted) return;
+
       // Update global AppState username
       final state = AppStateProvider.of(context);
       state.updateUserName(user['name'] ?? 'User');
@@ -66,6 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
         (route) => false,
       );
     } else {
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Email atau Password salah.'),
@@ -201,18 +205,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             passwordController.text,
                           );
 
-                          if (user != null) {
+                            if (user != null) {
                             // Link successful
                             final prefs = await SharedPreferences.getInstance();
                             await prefs.setBool('isLoggedIn', true);
                             await prefs.setString('loggedInUserName', user['name'] ?? 'User');
 
-                            if (mounted) {
-                              final state = AppStateProvider.of(context);
-                              state.updateUserName(user['name'] ?? 'User');
-                            }
-
                             if (!context.mounted) return;
+
+                            final state = AppStateProvider.of(context);
+                            state.updateUserName(user['name'] ?? 'User');
+
                             Navigator.pop(context); // close dialog
 
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -231,6 +234,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             setDialogState(() {
                               isLinking = false;
                             });
+
+                            if (!context.mounted) return;
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Email atau Password salah. Gagal menghubungkan.'),
@@ -319,7 +325,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: Border.all(color: const Color(0xFF204A94), width: 1.2),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF204A94).withOpacity(0.15),
+                        color: const Color(0xFF204A94).withValues(alpha: 0.15),
                         blurRadius: 24,
                         offset: const Offset(6, 12),
                       ),
@@ -443,7 +449,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF204A94).withOpacity(0.3),
+                                  color: const Color(0xFF204A94).withValues(alpha: 0.3),
                                   blurRadius: 10,
                                   offset: const Offset(0, 6),
                                 ),

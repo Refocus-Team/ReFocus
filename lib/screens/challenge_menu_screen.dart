@@ -12,6 +12,7 @@ class ChallengeMenuScreen extends StatefulWidget {
 class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
   int _activeTabIdx = 1; // Default to 'Daily' like original
 
+  // SUDAH DIKOREKSI: Menghapus bestScoreIconPath yang tidak ada asset-nya
   final List<Map<String, dynamic>> _challenges = [
     {
       "title": "Memory Match",
@@ -23,7 +24,8 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
       "isCompleted": true,
       "completedDate": "Selesai: Hari Ini",
       "bestScore": "Best Time: 01:15",
-      "isDaily": true
+      "isDaily": true,
+      "assetPath": "assets/memory-match.png",
     },
     {
       "title": "Deep Focus Pomodoro",
@@ -47,7 +49,8 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
       "isCompleted": false,
       "completedDate": null,
       "bestScore": null,
-      "isDaily": true
+      "isDaily": true,
+      "assetPath": "assets/math-sprint.png",
     },
     {
       "title": "Pattern Recall",
@@ -59,7 +62,8 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
       "isCompleted": true,
       "completedDate": "Selesai: 2 hari lalu",
       "bestScore": "Best Level: 6",
-      "isDaily": true
+      "isDaily": true,
+      "assetPath": "assets/pattern-recall.png",
     }
   ];
 
@@ -92,243 +96,248 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Banner header
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 20),
-                  child: Stack(
-                    clipBehavior: Clip.none,
+          children: [
+            // Banner header
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 20),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Challenge',
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          const Text(
-                            'POINTS',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white60,
-                            ),
-                          ),
-                          Text(
-                            '$points',
-                            style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                      const Text(
+                        'Challenge',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                      Positioned(
-                        bottom: -20,
-                        right: -12,
-                        child: Image.asset(
-                          'assets/mascot-cool.png',
-                          width: 100,
-                          fit: BoxFit.contain,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.star,
-                            color: Colors.white24,
-                            size: 70,
-                          ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'POINTS',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white60,
+                        ),
+                      ),
+                      Text(
+                        '$points',
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ],
                   ),
-                ),
-
-                // White rounded container
-                Expanded(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
+                  Positioned(
+                    bottom: -20,
+                    right: -12,
+                    child: Image.asset(
+                      'assets/mascot-cool.png',
+                      width: 100,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.star,
+                        color: Colors.white24,
+                        size: 70,
                       ),
                     ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
-                      ),
-                      child: Column(
-                        children: [
-                          // Tab Bar
-                          Padding(
-                            padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 24.0),
-                            child: Row(
-                              children: ['All', 'Daily', 'Completed'].map((tab) {
-                                final idx = ['All', 'Daily', 'Completed'].indexOf(tab);
-                                final isActive = _activeTabIdx == idx;
-                                return Expanded(
-                                  child: GestureDetector(
-                                    onTap: () => setState(() => _activeTabIdx = idx),
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
-                                      decoration: BoxDecoration(
-                                        color: isActive ? const Color(0xFF1B2755) : Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: const Color(0xFF1B2755)),
-                                      ),
-                                      child: Text(
-                                        tab,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: isActive ? Colors.white : const Color(0xFF1B2755),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
-                                      ),
+                  ),
+                ],
+              ),
+            ),
+
+            // White rounded container
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                  child: Column(
+                    children: [
+                      // Tab Bar
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 24.0),
+                        child: Row(
+                          children: ['All', 'Daily', 'Completed'].map((tab) {
+                            final idx = ['All', 'Daily', 'Completed'].indexOf(tab);
+                            final isActive = _activeTabIdx == idx;
+                            return Expanded(
+                              child: GestureDetector(
+                                onTap: () => setState(() => _activeTabIdx = idx),
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: isActive ? const Color(0xFF1B2755) : Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: const Color(0xFF1B2755)),
+                                  ),
+                                  child: Text(
+                                    tab,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: isActive ? Colors.white : const Color(0xFF1B2755),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
                                     ),
                                   ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
 
-                          // Challenges list or Empty State
-                          Expanded(
-                            child: filteredChallenges.isEmpty
-                                ? Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 48.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            'assets/mascot-cool.png',
-                                            height: 180,
-                                            fit: BoxFit.contain,
-                                            errorBuilder: (context, error, stackTrace) => const Icon(
-                                              Icons.emoji_events_outlined,
-                                              size: 100,
-                                              color: Color(0xFF204A94),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 24),
-                                          Text(
-                                            _activeTabIdx == 2
-                                                ? 'Belum Ada Tantangan Selesai'
-                                                : 'Belum Ada Tantangan',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF1B2755),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            _activeTabIdx == 2
-                                                ? 'Kamu belum menyelesaikan tantangan apa pun. Yuk kumpulkan poin pertamamu!'
-                                                : 'Tidak ada tantangan yang tersedia di kategori ini.',
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFF204A94),
-                                              height: 1.4,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    padding: const EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 100),
-                                    itemCount: filteredChallenges.length,
-                                    itemBuilder: (context, index) {
-                                      final challenge = filteredChallenges[index];
-                                      final bool isLocked = challenge["isLocked"] == true;
-                                      final bool isCompleted = challenge["isCompleted"] == true;
-
-                                      return Container(
-                                        margin: const EdgeInsets.only(bottom: 16),
-                                        padding: const EdgeInsets.all(16),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFE3F0FB),
-                                          borderRadius: BorderRadius.circular(20),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black.withOpacity(0.02),
-                                              blurRadius: 10,
-                                              offset: const Offset(0, 4),
-                                            ),
-                                          ],
+                      // Challenges list or Empty State
+                      Expanded(
+                        child: filteredChallenges.isEmpty
+                            ? Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 48.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/mascot-cool.png',
+                                        height: 180,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (context, error, stackTrace) => const Icon(
+                                          Icons.emoji_events_outlined,
+                                          size: 100,
+                                          color: Color(0xFF204A94),
                                         ),
-                                        child: Opacity(
-                                          opacity: isLocked ? 0.6 : 1.0,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    // Difficulty badge & lock icon row
-                                                    Row(
-                                                      children: [
-                                                        Container(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                                          decoration: BoxDecoration(
-                                                            color: _getDifficultyColor(challenge["difficulty"]),
-                                                            borderRadius: BorderRadius.circular(6),
-                                                          ),
-                                                          child: Text(
-                                                            challenge["difficulty"],
-                                                            style: const TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 10,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        if (isLocked) ...[
-                                                          const SizedBox(width: 8),
-                                                          const Icon(
-                                                            Icons.lock_outline,
-                                                            size: 14,
-                                                            color: Color(0xFF1B2755),
-                                                          ),
-                                                        ],
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    Text(
-                                                      challenge["title"],
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF1B2755),
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 4),
-                                                    Text(
-                                                      challenge["description"],
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF204A94),
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
+                                      ),
+                                      const SizedBox(height: 24),
+                                      Text(
+                                        _activeTabIdx == 2
+                                            ? 'Belum Ada Tantangan Selesai'
+                                            : 'Belum Ada Tantangan',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF1B2755),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        _activeTabIdx == 2
+                                            ? 'Kamu belum menyelesaikan tantangan apa pun. Yuk kumpulkan poin pertamamu!'
+                                            : 'Tidak ada tantangan yang tersedia di kategori ini.',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF204A94),
+                                          height: 1.4,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                padding: const EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 100),
+                                itemCount: filteredChallenges.length,
+                                itemBuilder: (context, index) {
+                                  final challenge = filteredChallenges[index];
+                                  final bool isLocked = challenge["isLocked"] == true;
+                                  final bool isCompleted = challenge["isCompleted"] == true;
 
-                                                    // Completed date and score details
-                                                    if (isCompleted) ...[
-                                                      const SizedBox(height: 8),
-                                                      Row(
-                                                        children: [
-                                                          if (challenge["completedDate"] != null) ...[
+                                  return Container(
+                                    margin: const EdgeInsets.only(bottom: 16),
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE3F0FB),
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(alpha: 0.02),
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Opacity(
+                                      opacity: isLocked ? 0.6 : 1.0,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          // SISI KIRI: Info Teks Tantangan
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                // Difficulty badge & lock icon row
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                      decoration: BoxDecoration(
+                                                        color: _getDifficultyColor(challenge["difficulty"]),
+                                                        borderRadius: BorderRadius.circular(6),
+                                                      ),
+                                                      child: Text(
+                                                        challenge["difficulty"],
+                                                        style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 10,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    if (isLocked) ...[
+                                                      const SizedBox(width: 8),
+                                                      const Icon(
+                                                        Icons.lock_outline,
+                                                        size: 14,
+                                                        color: Color(0xFF1B2755),
+                                                      ),
+                                                    ],
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 8),
+                                                Text(
+                                                  challenge["title"],
+                                                  style: const TextStyle(
+                                                    color: Color(0xFF1B2755),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                  challenge["description"],
+                                                  style: const TextStyle(
+                                                    color: Color(0xFF204A94),
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+
+                                                // Info selesai (Column vertikal anti-overflow)
+                                                if (isCompleted) ...[
+                                                  const SizedBox(height: 12),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      if (challenge["completedDate"] != null) ...[
+                                                        Row(
+                                                          children: [
                                                             const Icon(Icons.check_circle_outline, size: 12, color: Color(0xFF10B981)),
                                                             const SizedBox(width: 4),
                                                             Text(
@@ -340,10 +349,18 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                               ),
                                                             ),
                                                           ],
-                                                          if (challenge["completedDate"] != null && challenge["bestScore"] != null)
-                                                            const SizedBox(width: 12),
-                                                          if (challenge["bestScore"] != null) ...[
-                                                            const Icon(Icons.emoji_events_outlined, size: 12, color: Color(0xFF204A94)),
+                                                        ),
+                                                        const SizedBox(height: 4),
+                                                      ],
+                                                      if (challenge["bestScore"] != null) ...[
+                                                        Row(
+                                                          children: [
+                                                            // KOREKSI: Langsung pakai ikon bawaan Flutter, tanpa nunggu asset gambar
+                                                            const Icon(
+                                                              Icons.emoji_events_outlined,
+                                                              size: 12,
+                                                              color: Color(0xFF204A94),
+                                                            ),
                                                             const SizedBox(width: 4),
                                                             Text(
                                                               challenge["bestScore"],
@@ -354,39 +371,64 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                               ),
                                                             ),
                                                           ],
-                                                        ],
-                                                      ),
-                                                    ],
-                                                    const SizedBox(height: 8),
-
-                                                    // Reward points with coin icon
-                                                    Row(
-                                                      children: [
-                                                        Image.asset(
-                                                          'assets/coin-icon.png',
-                                                          width: 16,
-                                                          height: 16,
-                                                          errorBuilder: (context, error, stackTrace) => const Icon(
-                                                            Icons.monetization_on,
-                                                            size: 16,
-                                                            color: Colors.orange,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(width: 6),
-                                                        Text(
-                                                          '+${challenge["points"]} pts',
-                                                          style: const TextStyle(
-                                                            color: Colors.orange,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontSize: 14,
-                                                          ),
                                                         ),
                                                       ],
+                                                    ],
+                                                  ),
+                                                ],
+                                                const SizedBox(height: 12),
+
+                                                // Reward points with coin icon
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/coin-icon.png',
+                                                      width: 16,
+                                                      height: 16,
+                                                      errorBuilder: (context, error, stackTrace) => const Icon(
+                                                        Icons.monetization_on,
+                                                        size: 16,
+                                                        color: Colors.orange,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 6),
+                                                    Text(
+                                                      '+${challenge["points"]} pts',
+                                                      style: const TextStyle(
+                                                        color: Colors.orange,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              const SizedBox(width: 8),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+
+                                          // SISI KANAN: Ikon Ilustrasi Game & Tombol Vertikal
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              if (challenge["assetPath"] != null) ...[
+                                                Image.asset(
+                                                  challenge["assetPath"],
+                                                  width: 50,
+                                                  height: 50,
+                                                  fit: BoxFit.contain,
+                                                  errorBuilder: (context, error, stackTrace) => Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white24,
+                                                      borderRadius: BorderRadius.circular(12),
+                                                    ),
+                                                    child: const Icon(Icons.image_outlined, color: Color(0xFF204A94)),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 12),
+                                              ],
 
                                               // Action button
                                               if (isLocked)
@@ -454,19 +496,21 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                 ),
                                             ],
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                          ),
-                        ],
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
+        ),
+      ),
       bottomNavigationBar: const BottomNavigation(activePage: 'challenge'),
     );
   }

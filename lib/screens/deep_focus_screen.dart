@@ -188,7 +188,7 @@ class _DeepFocusScreenState extends State<DeepFocusScreen> with SingleTickerProv
                         height: 200,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white.withOpacity(0.08), width: 6),
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.08), width: 6),
                         ),
                       ),
                       // Progress Arc
@@ -257,7 +257,7 @@ class _DeepFocusScreenState extends State<DeepFocusScreen> with SingleTickerProv
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withOpacity(0.3), width: 1.5),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1.5),
                       ),
                       child: const Icon(
                         Icons.refresh,
@@ -302,7 +302,7 @@ class _DeepFocusScreenState extends State<DeepFocusScreen> with SingleTickerProv
                         margin: const EdgeInsets.only(right: 12),
                         width: 80,
                         decoration: BoxDecoration(
-                          color: isSelected ? const Color(0xFF204A94) : Colors.white.withOpacity(0.05),
+                          color: isSelected ? const Color(0xFF204A94) : Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isSelected ? const Color(0xFF38BDF8) : Colors.transparent,
@@ -336,7 +336,7 @@ class _DeepFocusScreenState extends State<DeepFocusScreen> with SingleTickerProv
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.06),
+                  color: Colors.white.withValues(alpha: 0.06),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Row(

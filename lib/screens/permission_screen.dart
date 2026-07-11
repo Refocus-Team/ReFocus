@@ -53,7 +53,7 @@ class _PermissionScreenState extends State<PermissionScreen> with SingleTickerPr
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFDCE8F5).withOpacity(0.5),
+              color: const Color(0xFFDCE8F5).withValues(alpha: 0.5),
               blurRadius: 10,
               offset: const Offset(4, 6),
             ),
@@ -214,7 +214,7 @@ class _PermissionScreenState extends State<PermissionScreen> with SingleTickerPr
                       borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 3,
-                    shadowColor: const Color(0xFF204A94).withOpacity(0.3),
+                    shadowColor: const Color(0xFF204A94).withValues(alpha: 0.3),
                   ),
                   child: const Text(
                     'Continue',

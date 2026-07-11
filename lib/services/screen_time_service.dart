@@ -6,58 +6,91 @@ class ScreenTimeService {
   
   static const MethodChannel _methodChannel = MethodChannel('com.example.refocus/method');
   static const EventChannel _eventChannel = EventChannel('com.example.refocus/event');
+  static const EventChannel _usageStatsChannel = EventChannel('com.example.refocus/usage_stats');
 
-  /// Memeriksa apakah akses izin penggunaan statistik (Usage Access) sudah diberikan.
-  /// Jika belum, Android native akan otomatis membukakan halaman Settings terkait.
   static Future<bool> checkUsagePermission() async {
     try {
       final bool granted = await _methodChannel.invokeMethod('checkUsagePermission');
       return granted;
     } on PlatformException catch (e) {
-      print("ScreenTimeService checkUsagePermission error: ${e.message}");
+      debugPrint("ScreenTimeService checkUsagePermission error: ${e.message}");
       return false;
     }
   }
 
-  /// Memeriksa apakah akses izin Overlay (Display over other apps) sudah diberikan.
-  /// Jika belum, Android native akan otomatis membukakan halaman Settings terkait.
   static Future<bool> checkOverlayPermission() async {
     try {
       final bool granted = await _methodChannel.invokeMethod('checkOverlayPermission');
       return granted;
     } on PlatformException catch (e) {
-      print("ScreenTimeService checkOverlayPermission error: ${e.message}");
+      debugPrint("ScreenTimeService checkOverlayPermission error: ${e.message}");
       return false;
     }
   }
 
-  /// Memulai pemantauan background monitor untuk daftar package media sosial tertentu.
-  static Future<bool> startMonitoring(List<String> packages, int timeLimitInMinutes) async {
+  static bool _isMonitoring = false;
+
+  static bool get isMonitoring => _isMonitoring;
+
+  static Future<bool> startMonitoring(List<String> packages, Map<String, int> timeLimits) async {
     try {
       final bool success = await _methodChannel.invokeMethod('startMonitoring', {
         'packages': packages,
-        'timeLimitInMinutes': timeLimitInMinutes,
+        'timeLimits': timeLimits,
       });
+      if (success) _isMonitoring = true;
       return success;
     } on PlatformException catch (e) {
-      print("ScreenTimeService startMonitoring error: ${e.message}");
+      debugPrint("ScreenTimeService startMonitoring error: ${e.message}");
       return false;
     }
   }
 
-  /// Mulai mendengarkan EventChannel untuk mendeteksi kapan batas waktu limit tercapai.
-  /// Jika diterima event, aplikasi akan langsung dialihkan secara paksa ke LimitReachedScreen.
+  static Future<void> stopMonitoring() async {
+    try {
+      await _methodChannel.invokeMethod('stopMonitoring');
+      _isMonitoring = false;
+    } on PlatformException catch (e) {
+      debugPrint("ScreenTimeService stopMonitoring error: ${e.message}");
+    }
+  }
+
+  static Future<Map<String, dynamic>?> getUsageStats() async {
+    try {
+      final result = await _methodChannel.invokeMethod('getUsageStats');
+      if (result is Map) {
+        return result.cast<String, dynamic>();
+      }
+      return null;
+    } on PlatformException catch (e) {
+      debugPrint("ScreenTimeService getUsageStats error: ${e.message}");
+      return null;
+    }
+  }
+
   static void initialize() {
     _eventChannel.receiveBroadcastStream().listen((dynamic event) {
       if (event != null) {
-        print("ScreenTimeService: limit reached event received for package: $event");
+        debugPrint("ScreenTimeService: limit reached event received for package: $event");
         navigatorKey.currentState?.pushNamedAndRemoveUntil(
           '/limit-reached',
           (route) => false,
+          arguments: event,
         );
       }
     }, onError: (dynamic error) {
-      print("ScreenTimeService EventChannel error: $error");
+      debugPrint("ScreenTimeService EventChannel error: $error");
+    });
+  }
+
+  static void listenUsageStats(void Function(Map<String, int> stats) callback) {
+    _usageStatsChannel.receiveBroadcastStream().listen((dynamic event) {
+      if (event is Map) {
+        final stats = event.cast<String, int>();
+        callback(stats);
+      }
+    }, onError: (dynamic error) {
+      debugPrint("ScreenTimeService UsageStats channel error: $error");
     });
   }
 }

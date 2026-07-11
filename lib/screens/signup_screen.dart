@@ -58,6 +58,8 @@ class _SignupScreenState extends State<SignupScreen> {
       await prefs.setBool('isLoggedIn', true);
       await prefs.setString('loggedInUserName', _nameController.text.trim());
 
+      if (!mounted) return;
+
       // Update global AppState username
       final state = AppStateProvider.of(context);
       state.updateUserName(_nameController.text.trim());
@@ -242,12 +244,11 @@ class _SignupScreenState extends State<SignupScreen> {
                             await prefs.setBool('isLoggedIn', true);
                             await prefs.setString('loggedInUserName', nameController.text.trim());
 
-                            if (mounted) {
-                              final state = AppStateProvider.of(context);
-                              state.updateUserName(nameController.text.trim());
-                            }
-
                             if (!context.mounted) return;
+
+                            final state = AppStateProvider.of(context);
+                            state.updateUserName(nameController.text.trim());
+
                             Navigator.pop(context); // close dialog
                             
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -266,6 +267,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             setDialogState(() {
                               isLinking = false;
                             });
+
+                            if (!context.mounted) return;
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(error),
@@ -354,7 +358,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     border: Border.all(color: const Color(0xFF204A94), width: 1.2),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF204A94).withOpacity(0.15),
+                        color: const Color(0xFF204A94).withValues(alpha: 0.15),
                         blurRadius: 24,
                         offset: const Offset(6, 12),
                       ),
@@ -497,7 +501,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               borderRadius: BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF204A94).withOpacity(0.3),
+                                  color: const Color(0xFF204A94).withValues(alpha: 0.3),
                                   blurRadius: 10,
                                   offset: const Offset(0, 6),
                                 ),

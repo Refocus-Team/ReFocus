@@ -39,10 +39,10 @@ class FocusHistoryScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.08)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.01),
+                    color: Colors.black.withValues(alpha: 0.01),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -63,7 +63,7 @@ class FocusHistoryScreen extends StatelessWidget {
                     children: [
                       const Text('Tantangan', style: TextStyle(color: Colors.grey, fontSize: 11)),
                       const SizedBox(height: 4),
-                      const Text('12 Kali', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF1B2755))),
+                      Text('${state.focusHistory.length} Kali', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF1B2755))),
                     ],
                   ),
                   Container(width: 1, height: 36, color: Colors.grey[200]),
@@ -112,7 +112,7 @@ class FocusHistoryScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.grey.withOpacity(0.06)),
+                      border: Border.all(color: Colors.grey.withValues(alpha: 0.06)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +122,7 @@ class FocusHistoryScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: isAddition ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+                                color: isAddition ? Colors.green.withValues(alpha: 0.1) : Colors.red.withValues(alpha: 0.1),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(

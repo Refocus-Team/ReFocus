@@ -22,14 +22,22 @@ import 'screens/pattern_recall_screen.dart';
 import 'screens/settings_screen.dart';
 import 'services/auth_service.dart';
 import 'services/screen_time_service.dart';
+import 'services/realtime_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AuthService.seedDefaultUser();
   ScreenTimeService.initialize();
+
+  final appState = AppState();
+  await appState.loadFromPrefs();
+
+  final realtimeService = RealtimeService(appState);
+  realtimeService.start();
+
   runApp(
     AppStateProvider(
-      notifier: AppState(),
+      notifier: appState,
       child: const ReFocusApp(),
     ),
   );

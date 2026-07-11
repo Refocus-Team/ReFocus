@@ -111,11 +111,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 if (notif.title.toLowerCase().contains('limit')) {
                   iconData = Icons.warning_amber_outlined;
                   iconColor = Colors.orange;
-                  iconBgColor = Colors.orange.withOpacity(0.12);
+                  iconBgColor = Colors.orange.withValues(alpha: 0.12);
                 } else if (notif.title.toLowerCase().contains('selesai') || notif.title.toLowerCase().contains('streak')) {
                   iconData = Icons.emoji_events_outlined;
                   iconColor = Colors.green;
-                  iconBgColor = Colors.green.withOpacity(0.12);
+                  iconBgColor = Colors.green.withValues(alpha: 0.12);
                 }
 
                 return Container(
@@ -125,11 +125,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: Colors.grey.withOpacity(0.06),
+                      color: Colors.grey.withValues(alpha: 0.06),
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.01),
+                        color: Colors.black.withValues(alpha: 0.01),
                         blurRadius: 6,
                         offset: const Offset(0, 3),
                       ),
