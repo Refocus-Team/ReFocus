@@ -131,7 +131,7 @@ class _LimitReachedScreenState extends State<LimitReachedScreen> with SingleTick
 
                 // Description
                 const Text(
-                  "You’ve reached your daily limit\nfor TikTok",
+                  "You’ve reached your daily limit\nfor apps",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
