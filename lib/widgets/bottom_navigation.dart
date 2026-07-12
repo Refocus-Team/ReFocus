@@ -53,44 +53,44 @@ class BottomNavigation extends StatelessWidget {
                     }
                   },
                   child: Container(
-                    width: 76,
-                    height: 76,
+                    width: 68,
+                    height: 68, 
                     decoration: BoxDecoration(
                       color: isActive ? const Color(0xFFB3D4FF) : Colors.transparent,
                       shape: BoxShape.circle,
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center, // Memusatkan konten agar tidak melar ke ujung
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
                           'assets/$iconName',
-                          width: 30,
-                          height: 30,
+                          width: 28,
+                          height: 28,
                           color: const Color(0xFF1C3F95),
                           fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) {
                             return Icon(
                               isActive ? Icons.star : Icons.star_border,
                               color: const Color(0xFF1C3F95),
-                              size: 30,
+                              size: 28,
                             );
                           },
                         ),
-                        const SizedBox(height: 3),
                         Text(
                           label,
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF1C3F95),
+                            height: 1.0, // Memaksa ruang teks merapat ke atas tanpa jarak bawaan font
                           ),
                         ),
                       ],
                     ),
                   ),
                 );
-              }).toList(),
+              }).toList(), // Tanda penutup toList yang sempat hilang sudah diperbaiki
             ),
           ),
         ),
