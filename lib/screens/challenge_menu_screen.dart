@@ -467,7 +467,10 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
               ],
             ),
           ),
-      bottomNavigationBar: const BottomNavigation(activePage: 'challenge'),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        child:const BottomNavigation(activePage: 'challenge'),
+      ),
     );
   }
 }
