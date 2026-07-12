@@ -40,11 +40,14 @@ class ReFocusApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = AppStateProvider.of(context);
     return MaterialApp(
       navigatorKey: ScreenTimeService.navigatorKey,
       title: 'ReFocus',
       debugShowCheckedModeBanner: false,
+      themeMode: state.themeMode,
       theme: ThemeData(
+        brightness: Brightness.light,
         fontFamily: 'Inter',
         primaryColor: const Color(0xFF204A94),
         scaffoldBackgroundColor: Colors.white,
@@ -52,10 +55,28 @@ class ReFocusApp extends StatelessWidget {
           seedColor: const Color(0xFF204A94),
           primary: const Color(0xFF204A94),
           secondary: const Color(0xFF1B2755),
+          brightness: Brightness.light,
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             foregroundColor: const Color(0xFF204A94),
+          ),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Inter',
+        primaryColor: const Color(0xFF204A94),
+        scaffoldBackgroundColor: const Color(0xFF121212),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF204A94),
+          primary: const Color(0xFF204A94),
+          secondary: const Color(0xFF9FA8DA),
+          brightness: Brightness.dark,
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: const Color(0xFF9FA8DA),
           ),
         ),
       ),

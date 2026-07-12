@@ -79,6 +79,16 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
   Widget build(BuildContext context) {
     final state = AppStateProvider.of(context);
     final points = state.points;
+    final isDark = state.themeMode == ThemeMode.dark;
+
+    final contentBg = isDark ? const Color(0xFF121212) : Colors.white;
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : const Color(0xFFE3F0FB);
+    final primaryTextColor = isDark ? const Color(0xFF9FA8DA) : const Color(0xFF204A94);
+    final secondaryTextColor = isDark ? Colors.white : const Color(0xFF1B2755);
+    final bodyTextColor = isDark ? Colors.white : Colors.black;
+    final tabActiveColor = isDark ? const Color(0xFF3F51B5) : const Color(0xFF1B2755);
+    final tabInactiveBgColor = isDark ? const Color(0xFF1C1C1C) : Colors.white;
+    final tabBorderColor = isDark ? Colors.white24 : const Color(0xFF1B2755);
 
     // Filter challenges based on selected tab
     final List<Map<String, dynamic>> filteredChallenges = _activeTabIdx == 0
@@ -151,9 +161,9 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                 // White rounded container
                 Expanded(
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      color: contentBg,
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(40),
                         topRight: Radius.circular(40),
                       ),
@@ -179,15 +189,15 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                       margin: const EdgeInsets.symmetric(horizontal: 4),
                                       padding: const EdgeInsets.symmetric(vertical: 10),
                                       decoration: BoxDecoration(
-                                        color: isActive ? const Color(0xFF1B2755) : Colors.white,
+                                        color: isActive ? tabActiveColor : tabInactiveBgColor,
                                         borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: const Color(0xFF1B2755)),
+                                        border: Border.all(color: tabBorderColor),
                                       ),
                                       child: Text(
                                         tab,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          color: isActive ? Colors.white : const Color(0xFF1B2755),
+                                          color: isActive ? Colors.white : tabActiveColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 13,
                                         ),
@@ -212,10 +222,10 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                             'assets/mascot-cool.png',
                                             height: 180,
                                             fit: BoxFit.contain,
-                                            errorBuilder: (context, error, stackTrace) => const Icon(
+                                            errorBuilder: (context, error, stackTrace) => Icon(
                                               Icons.emoji_events_outlined,
                                               size: 100,
-                                              color: Color(0xFF204A94),
+                                              color: primaryTextColor,
                                             ),
                                           ),
                                           const SizedBox(height: 24),
@@ -223,10 +233,10 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                             _activeTabIdx == 2
                                                 ? 'Belum Ada Tantangan Selesai'
                                                 : 'Belum Ada Tantangan',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFF1B2755),
+                                              color: secondaryTextColor,
                                             ),
                                           ),
                                           const SizedBox(height: 8),
@@ -235,9 +245,9 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                 ? 'Kamu belum menyelesaikan tantangan apa pun. Yuk kumpulkan poin pertamamu!'
                                                 : 'Tidak ada tantangan yang tersedia di kategori ini.',
                                             textAlign: TextAlign.center,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 14,
-                                              color: Color(0xFF204A94),
+                                              color: primaryTextColor,
                                               height: 1.4,
                                             ),
                                           ),
@@ -258,7 +268,7 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                         margin: const EdgeInsets.only(bottom: 16),
                                         padding: const EdgeInsets.all(16),
                                         decoration: BoxDecoration(
-                                          color: const Color(0xFFE3F0FB),
+                                          color: cardBg,
                                           borderRadius: BorderRadius.circular(20),
                                           boxShadow: [
                                             BoxShadow(
@@ -297,10 +307,10 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                         ),
                                                         if (isLocked) ...[
                                                           const SizedBox(width: 8),
-                                                          const Icon(
+                                                          Icon(
                                                             Icons.lock_outline,
                                                             size: 14,
-                                                            color: Color(0xFF1B2755),
+                                                            color: secondaryTextColor,
                                                           ),
                                                         ],
                                                       ],
@@ -308,8 +318,8 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                     const SizedBox(height: 8),
                                                     Text(
                                                       challenge["title"],
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF1B2755),
+                                                      style: TextStyle(
+                                                        color: secondaryTextColor,
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
                                                       ),
@@ -317,8 +327,8 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                     const SizedBox(height: 4),
                                                     Text(
                                                       challenge["description"],
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF204A94),
+                                                      style: TextStyle(
+                                                        color: primaryTextColor,
                                                         fontSize: 12,
                                                       ),
                                                     ),
@@ -343,12 +353,12 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                           if (challenge["completedDate"] != null && challenge["bestScore"] != null)
                                                             const SizedBox(width: 12),
                                                           if (challenge["bestScore"] != null) ...[
-                                                            const Icon(Icons.emoji_events_outlined, size: 12, color: Color(0xFF204A94)),
+                                                            Icon(Icons.emoji_events_outlined, size: 12, color: primaryTextColor),
                                                             const SizedBox(width: 4),
                                                             Text(
                                                               challenge["bestScore"],
-                                                              style: const TextStyle(
-                                                                color: Color(0xFF204A94),
+                                                              style: TextStyle(
+                                                                color: primaryTextColor,
                                                                 fontSize: 11,
                                                                 fontWeight: FontWeight.bold,
                                                               ),
@@ -421,8 +431,8 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                     Navigator.pushNamed(context, challenge["route"]);
                                                   },
                                                   style: OutlinedButton.styleFrom(
-                                                    side: const BorderSide(color: Color(0xFF204A94), width: 1.5),
-                                                    foregroundColor: const Color(0xFF204A94),
+                                                    side: BorderSide(color: primaryTextColor, width: 1.5),
+                                                    foregroundColor: primaryTextColor,
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(10),
                                                     ),
@@ -439,7 +449,7 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
                                                     Navigator.pushNamed(context, challenge["route"]);
                                                   },
                                                   style: ElevatedButton.styleFrom(
-                                                    backgroundColor: const Color(0xFF204A94),
+                                                    backgroundColor: isDark ? tabActiveColor : const Color(0xFF204A94),
                                                     foregroundColor: Colors.white,
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(10),
@@ -468,8 +478,8 @@ class _ChallengeMenuScreenState extends State<ChallengeMenuScreen> {
             ),
           ),
       bottomNavigationBar: Container(
-        color: Colors.white,
-        child:const BottomNavigation(activePage: 'challenge'),
+        color: contentBg,
+        child: const BottomNavigation(activePage: 'challenge'),
       ),
     );
   }

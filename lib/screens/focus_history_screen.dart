@@ -8,20 +8,29 @@ class FocusHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = AppStateProvider.of(context);
     final history = state.focusHistory;
+    final isDark = state.themeMode == ThemeMode.dark;
+
+    final scaffoldBg = isDark ? const Color(0xFF121212) : const Color(0xFFF5F7FA);
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final appBarBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final primaryTextColor = isDark ? const Color(0xFF9FA8DA) : const Color(0xFF204A94);
+    final secondaryTextColor = isDark ? Colors.white : const Color(0xFF1B2755);
+    final dividerColor = isDark ? Colors.white12 : Colors.grey.withOpacity(0.08);
+    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.01);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: scaffoldBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: appBarBg,
         elevation: 0.5,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF1B2755)),
+          icon: Icon(Icons.arrow_back, color: secondaryTextColor),
         ),
-        title: const Text(
+        title: Text(
           'Focus History',
           style: TextStyle(
-            color: Color(0xFF1B2755),
+            color: secondaryTextColor,
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
@@ -37,12 +46,12 @@ class FocusHistoryScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: cardBg,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                border: Border.all(color: dividerColor),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.01),
+                    color: shadowColor,
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -55,23 +64,23 @@ class FocusHistoryScreen extends StatelessWidget {
                     children: [
                       const Text('Total Focus', style: TextStyle(color: Colors.grey, fontSize: 11)),
                       const SizedBox(height: 4),
-                      Text('${state.focusHistory.length} Kali', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF1B2755))),
+                      Text('${state.focusHistory.length} Kali', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: secondaryTextColor)),
                     ],
                   ),
-                  Container(width: 1, height: 36, color: Colors.grey[200]),
+                  Container(width: 1, height: 36, color: isDark ? Colors.white12 : Colors.grey[200]),
                   Column(
                     children: [
                       const Text('Tantangan', style: TextStyle(color: Colors.grey, fontSize: 11)),
                       const SizedBox(height: 4),
-                      const Text('12 Kali', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF1B2755))),
+                      Text('12 Kali', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: secondaryTextColor)),
                     ],
                   ),
-                  Container(width: 1, height: 36, color: Colors.grey[200]),
+                  Container(width: 1, height: 36, color: isDark ? Colors.white12 : Colors.grey[200]),
                   Column(
                     children: [
                       const Text('Bonus Poin', style: TextStyle(color: Colors.grey, fontSize: 11)),
                       const SizedBox(height: 4),
-                      Text('+${state.points} Pts', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF204A94))),
+                      Text('+${state.points} Pts', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryTextColor)),
                     ],
                   ),
                 ],
@@ -80,12 +89,12 @@ class FocusHistoryScreen extends StatelessWidget {
             const SizedBox(height: 28),
 
             // History Log List
-            const Text(
+            Text(
               'Aktivitas Fokus Terbaru',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1B2755),
+                color: secondaryTextColor,
               ),
             ),
             const SizedBox(height: 12),
@@ -110,9 +119,9 @@ class FocusHistoryScreen extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBg,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.grey.withOpacity(0.06)),
+                      border: Border.all(color: dividerColor),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,9 +146,9 @@ class FocusHistoryScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   log.title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1B2755),
+                                    color: secondaryTextColor,
                                     fontSize: 14,
                                   ),
                                 ),

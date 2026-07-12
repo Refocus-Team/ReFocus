@@ -41,9 +41,15 @@ class _PointsScreenState extends State<PointsScreen> {
     final state = AppStateProvider.of(context);
     final points = state.points;
     final history = state.focusHistory;
+    final isDark = state.themeMode == ThemeMode.dark;
+
+    final scaffoldBg = isDark ? const Color(0xFF121212) : const Color(0xFFF5F7FA);
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final secondaryTextColor = isDark ? Colors.white : const Color(0xFF1B2755);
+    final dividerColor = isDark ? Colors.white12 : Colors.grey.withOpacity(0.08);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: scaffoldBg,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -58,14 +64,14 @@ class _PointsScreenState extends State<PointsScreen> {
                     children: [
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back, color: Color(0xFF1B2755), size: 26),
+                        icon: Icon(Icons.arrow_back, color: secondaryTextColor, size: 26),
                       ),
-                      const Text(
+                      Text(
                         'My Points',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1B2755),
+                          color: secondaryTextColor,
                         ),
                       ),
                       const SizedBox(width: 48), // spacer balance
@@ -91,7 +97,7 @@ class _PointsScreenState extends State<PointsScreen> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF1B2755).withOpacity(0.35),
+                          color: isDark ? Colors.black.withOpacity(0.3) : const Color(0xFF1B2755).withOpacity(0.35),
                           blurRadius: 15,
                           offset: const Offset(0, 8),
                         ),
@@ -140,9 +146,9 @@ class _PointsScreenState extends State<PointsScreen> {
                   const SizedBox(height: 28),
 
                   // Withdrawal options
-                  const Text(
+                  Text(
                     'Withdrawal Options',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1B2755)),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: secondaryTextColor),
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -158,10 +164,10 @@ class _PointsScreenState extends State<PointsScreen> {
                           margin: const EdgeInsets.symmetric(horizontal: 4),
                           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: cardBg,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: isEligible ? Colors.green : Colors.grey.withOpacity(0.2),
+                              color: isEligible ? Colors.green : dividerColor,
                               width: isEligible ? 2.0 : 1.0,
                             ),
                           ),
@@ -178,7 +184,7 @@ class _PointsScreenState extends State<PointsScreen> {
                                 const SizedBox(height: 8),
                                 Text(
                                   name,
-                                  style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1B2755), fontSize: 13),
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: secondaryTextColor, fontSize: 13),
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
@@ -189,10 +195,10 @@ class _PointsScreenState extends State<PointsScreen> {
                                 ElevatedButton(
                                   onPressed: isEligible ? () => _handleWithdrawal(state, min, name) : null,
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF204A94),
+                                    backgroundColor: isDark ? const Color(0xFF3F51B5) : const Color(0xFF204A94),
                                     foregroundColor: Colors.white,
-                                    disabledBackgroundColor: Colors.grey[200],
-                                    disabledForegroundColor: Colors.grey[400],
+                                    disabledBackgroundColor: isDark ? Colors.white10 : Colors.grey[200],
+                                    disabledForegroundColor: isDark ? Colors.white24 : Colors.grey[400],
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
@@ -211,9 +217,9 @@ class _PointsScreenState extends State<PointsScreen> {
                   const SizedBox(height: 28),
 
                   // Transaction History
-                  const Text(
+                  Text(
                     'Transaction History',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1B2755)),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: secondaryTextColor),
                   ),
                   const SizedBox(height: 12),
                   ListView.builder(
@@ -228,9 +234,9 @@ class _PointsScreenState extends State<PointsScreen> {
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: cardBg,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.grey.withOpacity(0.08)),
+                          border: Border.all(color: dividerColor),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,9 +246,9 @@ class _PointsScreenState extends State<PointsScreen> {
                               children: [
                                 Text(
                                   item.title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1B2755),
+                                    color: secondaryTextColor,
                                     fontSize: 14,
                                   ),
                                 ),
@@ -278,16 +284,23 @@ class _PointsScreenState extends State<PointsScreen> {
   }
 
   Widget _buildMiniMetricCard(String value, String label) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final primaryTextColor = isDark ? const Color(0xFF9FA8DA) : const Color(0xFF204A94);
+    final dividerColor = isDark ? Colors.white12 : Colors.grey.withOpacity(0.08);
+    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.01);
+
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardBg,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: dividerColor),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.01),
+              color: shadowColor,
               blurRadius: 6,
               offset: const Offset(0, 3),
             ),
@@ -297,7 +310,7 @@ class _PointsScreenState extends State<PointsScreen> {
           children: [
             Text(
               value,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF204A94)),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryTextColor),
             ),
             const SizedBox(height: 2),
             Text(

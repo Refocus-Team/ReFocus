@@ -24,20 +24,29 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     final state = AppStateProvider.of(context);
     final notifications = state.notifications;
+    final isDark = state.themeMode == ThemeMode.dark;
+
+    final scaffoldBg = isDark ? const Color(0xFF121212) : const Color(0xFFF5F7FA);
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final appBarBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final primaryTextColor = isDark ? const Color(0xFF9FA8DA) : const Color(0xFF204A94);
+    final secondaryTextColor = isDark ? Colors.white : const Color(0xFF1B2755);
+    final dividerColor = isDark ? Colors.white12 : Colors.grey.withOpacity(0.08);
+    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.01);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: scaffoldBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: appBarBg,
         elevation: 0.5,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF1B2755)),
+          icon: Icon(Icons.arrow_back, color: secondaryTextColor),
         ),
-        title: const Text(
+        title: Text(
           'Notifikasi',
           style: TextStyle(
-            color: Color(0xFF1B2755),
+            color: secondaryTextColor,
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
@@ -51,10 +60,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   const SnackBar(content: Text('Semua notifikasi dibersihkan.')),
                 );
               },
-              child: const Text(
+              child: Text(
                 'Clear All',
                 style: TextStyle(
-                  color: Color(0xFF204A94),
+                  color: primaryTextColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -69,22 +78,22 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE3F0FB),
+                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE3F0FB),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.notifications_off_outlined,
                       size: 64,
-                      color: Color(0xFF204A94),
+                      color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF204A94),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
+                  Text(
                     'Tidak Ada Notifikasi',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1B2755),
+                      color: secondaryTextColor,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -105,31 +114,31 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               itemBuilder: (context, index) {
                 final notif = notifications[index];
                 IconData iconData = Icons.info_outline;
-                Color iconColor = const Color(0xFF204A94);
-                Color iconBgColor = const Color(0xFFE3F0FB);
+                Color iconColor = isDark ? const Color(0xFF38BDF8) : const Color(0xFF204A94);
+                Color iconBgColor = isDark ? const Color(0xFF25407A) : const Color(0xFFE3F0FB);
 
                 if (notif.title.toLowerCase().contains('limit')) {
                   iconData = Icons.warning_amber_outlined;
                   iconColor = Colors.orange;
-                  iconBgColor = Colors.orange.withOpacity(0.12);
+                  iconBgColor = isDark ? Colors.orange.withOpacity(0.2) : Colors.orange.withOpacity(0.12);
                 } else if (notif.title.toLowerCase().contains('selesai') || notif.title.toLowerCase().contains('streak')) {
                   iconData = Icons.emoji_events_outlined;
                   iconColor = Colors.green;
-                  iconBgColor = Colors.green.withOpacity(0.12);
+                  iconBgColor = isDark ? Colors.green.withOpacity(0.2) : Colors.green.withOpacity(0.12);
                 }
 
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBg,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: Colors.grey.withOpacity(0.06),
+                      color: dividerColor,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.01),
+                        color: shadowColor,
                         blurRadius: 6,
                         offset: const Offset(0, 3),
                       ),
@@ -157,9 +166,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                 Expanded(
                                   child: Text(
                                     notif.title,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1B2755),
+                                      color: secondaryTextColor,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -187,8 +196,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             const SizedBox(height: 8),
                             Text(
                               notif.time,
-                              style: const TextStyle(
-                                color: Colors.black38,
+                              style: TextStyle(
+                                color: isDark ? Colors.white38 : Colors.black38,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),

@@ -34,9 +34,19 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
   Widget build(BuildContext context) {
     final state = AppStateProvider.of(context);
     final apps = state.selectedApps;
+    final isDark = state.themeMode == ThemeMode.dark;
+
+    final scaffoldBg = isDark ? const Color(0xFF121212) : Colors.white;
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final primaryTextColor = isDark ? const Color(0xFF9FA8DA) : const Color(0xFF204A94);
+    final secondaryTextColor = isDark ? Colors.white : const Color(0xFF1B2755);
+    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.02);
+    final checkedBorderColor = isDark ? const Color(0xFF3F51B5) : const Color(0xFF204A94);
+    final uncheckedBorderColor = isDark ? Colors.white24 : const Color(0xFF1B2755).withOpacity(0.15);
+    final appIconBg = isDark ? const Color(0xFF2D2D2D) : const Color(0xFFE3F0FB);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: scaffoldBg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -56,30 +66,30 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
                   'assets/mascot-select.png',
                   height: 120,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
+                  errorBuilder: (context, error, stackTrace) => Icon(
                     Icons.apps_outlined,
                     size: 80,
-                    color: Color(0xFF204A94),
+                    color: primaryTextColor,
                   ),
                 ),
               ),
               const SizedBox(height: 12),
-              const Text(
+              Text(
                 'Select Apps',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1B2755),
+                  color: secondaryTextColor,
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 'Pilih sosial media atau aplikasi yang anda ingin kelola',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF204A94),
+                  color: primaryTextColor,
                 ),
               ),
               const SizedBox(height: 16),
@@ -100,15 +110,15 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: cardBg,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: app.checked ? const Color(0xFF204A94) : const Color(0xFF1B2755).withOpacity(0.15),
+                            color: app.checked ? checkedBorderColor : uncheckedBorderColor,
                             width: app.checked ? 2.0 : 1.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.02),
+                              color: shadowColor,
                               blurRadius: 8,
                               offset: const Offset(0, 4),
                             ),
@@ -127,18 +137,18 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
                                   errorBuilder: (context, error, stackTrace) => Container(
                                     width: 32,
                                     height: 32,
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xFFE3F0FB),
+                                    decoration: BoxDecoration(
+                                      color: appIconBg,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(Icons.android, size: 20, color: Color(0xFF204A94)),
+                                    child: Icon(Icons.android, size: 20, color: primaryTextColor),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
                                   app.name,
-                                  style: const TextStyle(
-                                    color: Color(0xFF204A94),
+                                  style: TextStyle(
+                                    color: primaryTextColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -150,9 +160,9 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
                               width: 22,
                               height: 22,
                               decoration: BoxDecoration(
-                                color: app.checked ? const Color(0xFF204A94) : Colors.white,
+                                color: app.checked ? checkedBorderColor : (isDark ? const Color(0xFF1C1C1C) : Colors.white),
                                 border: Border.all(
-                                  color: const Color(0xFF204A94),
+                                  color: checkedBorderColor,
                                   width: 2.0,
                                 ),
                                 borderRadius: BorderRadius.circular(6),
@@ -185,14 +195,14 @@ class _SelectAppsScreenState extends State<SelectAppsScreen> with SingleTickerPr
                           Navigator.pushReplacementNamed(context, '/set-limit');
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF204A94),
+                          backgroundColor: checkedBorderColor,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
                           elevation: 3,
-                          shadowColor: const Color(0xFF204A94).withOpacity(0.3),
+                          shadowColor: isDark ? Colors.black.withOpacity(0.3) : checkedBorderColor.withOpacity(0.3),
                         ),
                         child: const Text(
                           'Continue',

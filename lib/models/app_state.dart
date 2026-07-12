@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SocialApp {
   final String name;
@@ -75,6 +76,21 @@ class AppState extends ChangeNotifier {
   String _userName = "Dio";
   int _points = 240;
   bool _deepWorkMode = false;
+  String? _profileImagePath;
+  ThemeMode _themeMode = ThemeMode.light;
+
+  AppState() {
+    _loadThemeMode();
+  }
+
+  void _loadThemeMode() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final themeStr = prefs.getString('theme_mode') ?? 'light';
+      _themeMode = themeStr == 'dark' ? ThemeMode.dark : ThemeMode.light;
+      notifyListeners();
+    } catch (_) {}
+  }
 
   final List<FocusNotification> _notifications = [
     FocusNotification(
@@ -138,6 +154,8 @@ class AppState extends ChangeNotifier {
   List<FocusNotification> get notifications => _notifications;
   int get unreadNotificationsCount => _notifications.where((n) => !n.isRead).length;
   List<FocusHistoryLog> get focusHistory => _focusHistory;
+  String? get profileImagePath => _profileImagePath;
+  ThemeMode get themeMode => _themeMode;
 
   void toggleAppSelection(int index) {
     _selectedApps[index].checked = !_selectedApps[index].checked;
@@ -157,9 +175,27 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserName(String name) {
+  void updateUserName(String name) async {
     _userName = name;
     notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _profileImagePath = prefs.getString('profile_image_$name');
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  void updateProfileImagePath(String? path) async {
+    _profileImagePath = path;
+    notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (path != null) {
+        await prefs.setString('profile_image_$_userName', path);
+      } else {
+        await prefs.remove('profile_image_$_userName');
+      }
+    } catch (_) {}
   }
 
   bool withdrawPoints(int amount) {
@@ -212,6 +248,15 @@ class AppState extends ChangeNotifier {
       ),
     );
     notifyListeners();
+  }
+
+  void toggleThemeMode() async {
+    _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('theme_mode', _themeMode == ThemeMode.dark ? 'dark' : 'light');
+    } catch (_) {}
   }
 }
 

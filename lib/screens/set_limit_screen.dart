@@ -38,9 +38,18 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
     final state = AppStateProvider.of(context);
     // Fetch checked apps; if none are checked, fall back to showing all for preview
     final activeApps = state.activeApps.isEmpty ? state.selectedApps : state.activeApps;
+    final isDark = state.themeMode == ThemeMode.dark;
+
+    final scaffoldBg = isDark ? const Color(0xFF121212) : Colors.white;
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final primaryTextColor = isDark ? const Color(0xFF9FA8DA) : const Color(0xFF204A94);
+    final secondaryTextColor = isDark ? Colors.white : const Color(0xFF1B2755);
+    final dividerColor = isDark ? Colors.white24 : const Color(0xFF1B2755);
+    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.01);
+    final buttonBgColor = isDark ? const Color(0xFF3F51B5) : const Color(0xFF204A94);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: scaffoldBg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -60,30 +69,30 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                   'assets/mascot-limit.png',
                   height: 120,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
+                  errorBuilder: (context, error, stackTrace) => Icon(
                     Icons.hourglass_empty_outlined,
                     size: 80,
-                    color: Color(0xFF204A94),
+                    color: primaryTextColor,
                   ),
                 ),
               ),
               const SizedBox(height: 12),
-              const Text(
+              Text(
                 'Set Daily Limit',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1B2755),
+                  color: secondaryTextColor,
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 'Atur batas waktu harian Anda untuk setiap aplikasi',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF204A94),
+                  color: primaryTextColor,
                 ),
               ),
               const SizedBox(height: 16),
@@ -105,12 +114,12 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                       margin: const EdgeInsets.only(bottom: 12),
                       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: cardBg,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFF1B2755)),
+                        border: Border.all(color: dividerColor),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.01),
+                            color: shadowColor,
                             blurRadius: 6,
                             offset: const Offset(0, 3),
                           ),
@@ -126,13 +135,13 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                                 width: 32,
                                 height: 32,
                                 fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) => const Icon(Icons.android),
+                                errorBuilder: (context, error, stackTrace) => Icon(Icons.android, color: primaryTextColor),
                               ),
                               const SizedBox(width: 12),
                               Text(
                                 app.name,
-                                style: const TextStyle(
-                                  color: Color(0xFF204A94),
+                                style: TextStyle(
+                                  color: primaryTextColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -144,16 +153,17 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xFF1B2755)),
+                              border: Border.all(color: dividerColor),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
+                                dropdownColor: cardBg,
                                 value: selectedLimit,
-                                icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF204A94), size: 18),
+                                icon: Icon(Icons.keyboard_arrow_down, color: primaryTextColor, size: 18),
                                 elevation: 8,
-                                style: const TextStyle(
-                                  color: Color(0xFF204A94),
+                                style: TextStyle(
+                                  color: primaryTextColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13,
                                 ),
@@ -225,14 +235,14 @@ class _SetLimitScreenState extends State<SetLimitScreen> with SingleTickerProvid
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF204A94),
+                          backgroundColor: buttonBgColor,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
                           elevation: 3,
-                          shadowColor: const Color(0xFF204A94).withOpacity(0.3),
+                          shadowColor: isDark ? Colors.black.withOpacity(0.3) : buttonBgColor.withOpacity(0.3),
                         ),
                         child: const Text(
                           'Save & Start',

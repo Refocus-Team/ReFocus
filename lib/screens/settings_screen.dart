@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/app_state.dart';
 import '../widgets/bottom_navigation.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -12,13 +13,23 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _focusReminderOn = true;
   bool _notificationOn = true;
-  String _theme = "Light";
   String _dailyGoal = "2h 30m";
 
   @override
   Widget build(BuildContext context) {
+    final state = AppStateProvider.of(context);
+    final isDark = state.themeMode == ThemeMode.dark;
+
+    final scaffoldBg = isDark ? const Color(0xFF121212) : Colors.white;
+    final cardBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final primaryTextColor = isDark ? const Color(0xFF9FA8DA) : const Color(0xFF1C3F95);
+    final secondaryTextColor = isDark ? Colors.white : const Color(0xFF1B2755);
+    final textStyleColor = isDark ? Colors.white70 : Colors.black87;
+    final dividerColor = isDark ? Colors.white12 : Colors.grey.withOpacity(0.15);
+    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.02);
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: scaffoldBg,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -28,36 +39,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               const SizedBox(height: 16),
               // Centered Header Title
-              const Center(
+              Center(
                 child: Text(
                   'Settings',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1C3F95),
+                    color: primaryTextColor,
                   ),
                 ),
               ),
               const SizedBox(height: 24),
 
               // General Group
-              const Text(
+              Text(
                 'General',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1B2755),
+                  color: secondaryTextColor,
                 ),
               ),
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: cardBg,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey.withOpacity(0.15), width: 1.5),
+                  border: Border.all(color: dividerColor, width: 1.5),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.02),
+                      color: shadowColor,
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -68,53 +79,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingTile(
                       icon: Icons.person,
                       title: 'Profile',
+                      color: primaryTextColor,
                       onTap: () {
                         Navigator.pop(context);
                       },
                     ),
-                    _buildDivider(),
+                    _buildDivider(dividerColor),
                     _buildSettingTile(
                       icon: Icons.timer,
                       title: 'Daily Goal',
                       trailingText: _dailyGoal,
+                      color: primaryTextColor,
                       onTap: () {
-                        _showDailyGoalDialog();
+                        _showDailyGoalDialog(cardBg, secondaryTextColor, primaryTextColor, dividerColor);
                       },
                     ),
-                    _buildDivider(),
+                    _buildDivider(dividerColor),
                     _buildSettingTile(
                       icon: Icons.notifications_active,
                       title: 'Focus Reminder',
                       trailingText: _focusReminderOn ? 'On' : 'Off',
+                      color: primaryTextColor,
                       onTap: () {
                         setState(() {
                           _focusReminderOn = !_focusReminderOn;
                         });
-                        _showSnackBar('Focus Reminder turned ${_focusReminderOn ? 'On' : 'Off'}');
+                        _showSnackBar('Focus Reminder turned ${_focusReminderOn ? 'On' : 'Off'}', primaryTextColor);
                       },
                     ),
-                    _buildDivider(),
+                    _buildDivider(dividerColor),
                     _buildSettingTile(
                       icon: Icons.notifications,
                       title: 'Notification',
                       trailingText: _notificationOn ? 'On' : 'Off',
+                      color: primaryTextColor,
                       onTap: () {
                         setState(() {
                           _notificationOn = !_notificationOn;
                         });
-                        _showSnackBar('Notification turned ${_notificationOn ? 'On' : 'Off'}');
+                        _showSnackBar('Notification turned ${_notificationOn ? 'On' : 'Off'}', primaryTextColor);
                       },
                     ),
-                    _buildDivider(),
+                    _buildDivider(dividerColor),
                     _buildSettingTile(
                       icon: Icons.palette,
                       title: 'Theme',
-                      trailingText: _theme,
+                      trailingText: isDark ? 'Dark' : 'Light',
+                      color: primaryTextColor,
                       onTap: () {
-                        setState(() {
-                          _theme = _theme == 'Light' ? 'Dark' : 'Light';
-                        });
-                        _showSnackBar('Theme set to $_theme');
+                        state.toggleThemeMode();
+                        _showSnackBar('Theme set to ${!isDark ? 'Dark' : 'Light'}', primaryTextColor);
                       },
                     ),
                   ],
@@ -124,23 +138,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 24),
 
               // Support Group
-              const Text(
+              Text(
                 'Support',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1B2755),
+                  color: secondaryTextColor,
                 ),
               ),
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: cardBg,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey.withOpacity(0.15), width: 1.5),
+                  border: Border.all(color: dividerColor, width: 1.5),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.02),
+                      color: shadowColor,
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -151,44 +165,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingTile(
                       icon: Icons.help_outline,
                       title: 'Help Center',
+                      color: primaryTextColor,
                       onTap: () {
                         _showInfoDialog(
                           'Help Center',
                           'Butuh bantuan? Silakan hubungi tim dukungan kami di support@refocus.com atau kunjungi dokumentasi online.',
+                          cardBg,
+                          secondaryTextColor,
+                          textStyleColor,
+                          primaryTextColor,
                         );
                       },
                     ),
-                    _buildDivider(),
+                    _buildDivider(dividerColor),
                     _buildSettingTile(
                       icon: Icons.verified_user,
                       title: 'Privacy Policy',
+                      color: primaryTextColor,
                       onTap: () {
                         _showInfoDialog(
                           'Privacy Policy',
                           'Privasi Anda sangat penting bagi kami. Kami berkomitmen untuk melindungi data pribadi dan privasi penggunaan waktu layar Anda.',
+                          cardBg,
+                          secondaryTextColor,
+                          textStyleColor,
+                          primaryTextColor,
                         );
                       },
                     ),
-                    _buildDivider(),
+                    _buildDivider(dividerColor),
                     _buildSettingTile(
                       icon: Icons.assignment,
                       title: 'Terms of Use',
+                      color: primaryTextColor,
                       onTap: () {
                         _showInfoDialog(
                           'Terms of Use',
                           'Dengan menggunakan ReFocus, Anda menyetujui persyaratan penggunaan dan batasan waktu layar yang Anda buat sendiri untuk kebaikan fokus Anda.',
+                          cardBg,
+                          secondaryTextColor,
+                          textStyleColor,
+                          primaryTextColor,
                         );
                       },
                     ),
-                    _buildDivider(),
+                    _buildDivider(dividerColor),
                     _buildSettingTile(
                       icon: Icons.info,
                       title: 'About ReFocus',
                       trailingText: 'v1.0.0',
+                      color: primaryTextColor,
                       onTap: () {
                         _showInfoDialog(
                           'About ReFocus',
                           'ReFocus App v1.0.0\n\nAplikasi asisten fokus digital dan pelacakan limit penggunaan sosial media untuk produktivitas optimal.',
+                          cardBg,
+                          secondaryTextColor,
+                          textStyleColor,
+                          primaryTextColor,
                         );
                       },
                     ),
@@ -235,16 +269,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required String title,
     String? trailingText,
     required VoidCallback onTap,
+    required Color color,
   }) {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      leading: Icon(icon, color: const Color(0xFF1C3F95), size: 24),
+      leading: Icon(icon, color: color, size: 24),
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Color(0xFF1C3F95),
+          color: color,
           fontSize: 14,
         ),
       ),
@@ -254,68 +289,84 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (trailingText != null) ...[
             Text(
               trailingText,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1C3F95),
+                color: color,
                 fontSize: 13,
               ),
             ),
             const SizedBox(width: 8),
           ],
-          const Icon(Icons.chevron_right, color: Color(0xFF1C3F95), size: 20),
+          Icon(Icons.chevron_right, color: color, size: 20),
         ],
       ),
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(Color color) {
     return Divider(
       height: 1,
       thickness: 1,
-      color: Colors.grey.withOpacity(0.15),
+      color: color,
     );
   }
 
-  void _showSnackBar(String message) {
+  void _showSnackBar(String message, Color bgColor) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 2),
-        backgroundColor: const Color(0xFF1C3F95),
+        backgroundColor: bgColor,
       ),
     );
   }
 
-  void _showInfoDialog(String title, String content) {
+  void _showInfoDialog(
+    String title,
+    String content,
+    Color cardBg,
+    Color secondaryTextColor,
+    Color textStyleColor,
+    Color buttonColor,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(title, style: const TextStyle(color: Color(0xFF1B2755), fontWeight: FontWeight.bold)),
-        content: Text(content, style: const TextStyle(color: Colors.black87)),
+        title: Text(title, style: TextStyle(color: secondaryTextColor, fontWeight: FontWeight.bold)),
+        content: Text(content, style: TextStyle(color: textStyleColor)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Tutup', style: TextStyle(color: Color(0xFF1C3F95), fontWeight: FontWeight.bold)),
+            child: Text('Tutup', style: TextStyle(color: buttonColor, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
     );
   }
 
-  void _showDailyGoalDialog() {
+  void _showDailyGoalDialog(
+    Color cardBg,
+    Color secondaryTextColor,
+    Color buttonColor,
+    Color borderColor,
+  ) {
     final controller = TextEditingController(text: _dailyGoal);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Set Daily Goal', style: TextStyle(color: Color(0xFF1B2755), fontWeight: FontWeight.bold)),
+        title: Text('Set Daily Goal', style: TextStyle(color: secondaryTextColor, fontWeight: FontWeight.bold)),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
+          style: TextStyle(color: secondaryTextColor),
+          decoration: InputDecoration(
             hintText: 'e.g., 2h 30m',
+            hintStyle: const TextStyle(color: Colors.grey),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: buttonColor)),
           ),
         ),
         actions: [
@@ -329,9 +380,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _dailyGoal = controller.text.trim();
               });
               Navigator.pop(context);
-              _showSnackBar('Daily Goal updated to $_dailyGoal');
+              _showSnackBar('Daily Goal updated to $_dailyGoal', buttonColor);
             },
-            child: const Text('Simpan', style: TextStyle(color: Color(0xFF1C3F95), fontWeight: FontWeight.bold)),
+            child: Text('Simpan', style: TextStyle(color: buttonColor, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
