@@ -480,6 +480,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Stack(
+                            clipBehavior: Clip.none,
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

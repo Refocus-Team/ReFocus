@@ -88,8 +88,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Column(
       children: [
         Container(
-          height: 36,
-          margin: const EdgeInsets.only(top: 8),
+          height: 30,
+          margin: const EdgeInsets.only(top: 4),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
