@@ -81,6 +81,7 @@ class AppState extends ChangeNotifier {
 
   AppState() {
     _loadThemeMode();
+    _loadSavedAppData();
   }
 
   void _loadThemeMode() async {
@@ -88,6 +89,24 @@ class AppState extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       final themeStr = prefs.getString('theme_mode') ?? 'light';
       _themeMode = themeStr == 'dark' ? ThemeMode.dark : ThemeMode.light;
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  void _loadSavedAppData() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      for (int i = 0; i < _selectedApps.length; i++) {
+        final appName = _selectedApps[i].name;
+        final isChecked = prefs.getBool('app_checked_$appName');
+        if (isChecked != null) {
+          _selectedApps[i].checked = isChecked;
+        }
+        final limit = prefs.getString('app_limit_$appName');
+        if (limit != null) {
+          _selectedApps[i].timeLimit = limit;
+        }
+      }
       notifyListeners();
     } catch (_) {}
   }
@@ -157,16 +176,24 @@ class AppState extends ChangeNotifier {
   String? get profileImagePath => _profileImagePath;
   ThemeMode get themeMode => _themeMode;
 
-  void toggleAppSelection(int index) {
+  void toggleAppSelection(int index) async {
     _selectedApps[index].checked = !_selectedApps[index].checked;
     notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('app_checked_${_selectedApps[index].name}', _selectedApps[index].checked);
+    } catch (_) {}
   }
 
-  void updateAppLimit(String name, String newLimit) {
+  void updateAppLimit(String name, String newLimit) async {
     final idx = _selectedApps.indexWhere((app) => app.name == name);
     if (idx != -1) {
       _selectedApps[idx].timeLimit = newLimit;
       notifyListeners();
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('app_limit_$name', newLimit);
+      } catch (_) {}
     }
   }
 
