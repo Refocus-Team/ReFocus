@@ -222,7 +222,7 @@ class _ChallengePlayScreenState extends State<ChallengePlayScreen> {
                   // Cards Grid
                   Expanded(
                     child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 12,
