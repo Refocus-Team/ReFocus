@@ -1,127 +1,285 @@
-# 🦉 ReFocus App — Asisten Fokus & Produktivitas Digital Anda
+# 📱 ReFocus
 
-[![Flutter Version](https://img.shields.io/badge/Flutter-%E2%89%A53.0.0-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
-[![Dart Version](https://img.shields.io/badge/Dart-%E2%89%A53.0.0-0175C2?logo=dart&logoColor=white)](https://dart.dev)
-[![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web-green)](https://flutter.dev)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<div align="center">
 
-**ReFocus** adalah aplikasi produktivitas berbasis Flutter yang dirancang khusus untuk membantu pengguna melacak waktu layar (*screen time*), mengurangi kecanduan media sosial, meningkatkan fokus harian, serta melatih kedisiplinan diri secara interaktif melalui metode gamifikasi.
+<img src="assets/images/logo.png" alt="ReFocus Logo" width="180"/>
 
----
+### Reclaim Your Focus, Live Better.
 
-## 🚀 Fitur Utama
+**Mobile Application for Reducing Social Media Distraction Through Focus Lock and Educational Challenges.**
 
-### 1. 🔐 Autentikasi Pengguna & Sesi Persisten
-* **Pendaftaran & Masuk Email**: Registrasi akun dan login secara mandiri menggunakan basis data lokal yang persisten.
-* **Integrasi Kredensial Google & Apple**: Menghubungkan akun ReFocus Anda secara aman dengan pihak ketiga (Google & Apple) dengan tetap mewajibkan otorisasi nama akun dan kata sandi demi keamanan data.
-* **Sesi Persisten**: Otomatis menyimpan sesi masuk pengguna via `shared_preferences` sehingga Anda tidak perlu login ulang saat aplikasi ditutup dan dibuka kembali.
+![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.x-blue?logo=dart)
+![License](https://img.shields.io/badge/License-Educational-success)
 
-### 2. 📊 Dasbor Analitik & Waktu Layar (Statistics Screen)
-* **Today's Screen Time**: Melacak akumulasi pemakaian waktu layar harian secara presisi lengkap dengan persentase penurunan durasi hemat dibanding hari kemarin.
-* **Mini Bar Chart**: Visualisasi grafik batang 8 kolom interaktif yang menggambarkan pembagian jam aktivitas pemakaian ponsel dalam sehari.
-* **Current Streak**: Mengukur konsistensi fokus harian berturut-turut lengkap dengan indikator lingkaran centang sukses mingguan (`M`, `T`, `W`, `T`, `F`, `S`, `S`) serta emoji penyemangat.
-* **Most Used Apps**: Daftar pelacakan detail penggunaan aplikasi terpopuler (Instagram, TikTok, YouTube, Facebook) lengkap dengan batas limit, persentase ketercapaian, dan bilah progres horizontal.
-
-### 3. 🎮 Menu Tantangan Produktivitas (Challenge Menu)
-* **Tantangan Harian (Daily Challenges)**: Ikuti kuis interaktif seperti *Memory Match*, *Math Sprint*, dan *Pattern Recall* untuk mengumpulkan poin.
-* **Deep Focus Pomodoro**: Fitur fokus terpandu 25 menit yang terkunci guna mengamankan konsentrasi Anda dari gangguan luar.
-* **Sistem Kunci Tantangan (Locking System)**: Fitur tantangan yang belum terbuka akan tampil transparan dan memiliki ikon gembok sebagai indikator target yang harus dicapai.
-
-### 4. 🏆 Sistem Poin & Penghargaan (Profile & Achievements)
-* **XP Progress Bar**: Slider level XP interaktif yang menunjukkan tingkat pertumbuhan produktivitas Anda (`Level 5 | Focus Master`).
-* **Achievements Badge**: Kumpulkan 4 lencana penghargaan eksklusif:
-  * 🦉 *First step*
-  * ⏱️ *Time tracker*
-  * 🛡️ *Limit setter*
-  * 🔒 *Locked in*
-* **Menu Profil Terintegrasi**: Akses cepat menuju halaman riwayat fokus (*Focus History*) dan toko poin (*My Points*).
-
-### 5. 🔕 Mode Kerja Mendalam (Deep Work Mode)
-* **Fokus Tanpa Batas**: Aktifkan sakelar *Deep Work Mode* di menu pengaturan untuk menyembunyikan atau memblokir seluruh notifikasi media sosial masuk demi perlindungan waktu produktif Anda secara maksimal.
+</div>
 
 ---
 
-## 📂 Struktur Proyek
+# 📖 About
 
-Berikut adalah tata letak folder dan file utama pada aplikasi ReFocus:
+ReFocus is a mobile application developed as a university project to help students reduce social media distractions while studying.
 
-```text
+Unlike traditional screen time applications, ReFocus temporarily locks selected social media applications after reaching a predefined usage limit. During the lock period, users are encouraged to complete educational mini games designed to help regain concentration before returning to study.
+
+The application combines **digital wellbeing**, **gamification**, and **focus management** into one integrated mobile experience.
+
+---
+
+# 🎯 Objectives
+
+- Reduce excessive social media usage
+- Improve students' concentration while studying
+- Encourage healthier digital habits
+- Increase productivity through gamification
+- Support Sustainable Development Goals (SDGs)
+
+---
+
+# 🌍 Sustainable Development Goals (SDGs)
+
+ReFocus supports:
+
+## SDG 3
+**Good Health and Well-being**
+
+Helping users maintain better mental well-being by reducing excessive digital distraction.
+
+## SDG 4
+**Quality Education**
+
+Improving learning effectiveness through better focus and reduced procrastination.
+
+## SDG 9
+**Industry, Innovation and Infrastructure**
+
+Applying mobile technology to solve everyday educational challenges through innovative digital solutions.
+
+---
+
+# ✨ Features
+
+- 🔐 Social Media App Lock
+- ⏱ Focus Session Timer
+- 📊 Screen Time Statistics
+- 🧠 Educational Mini Games
+- 🔥 Daily Focus Streak
+- 🏆 Achievement & Badge
+- 📈 Weekly & Monthly Reports
+- 🎯 Daily Focus Goal
+- 🔔 Smart Notification Reminder
+- 👤 User Profile
+
+---
+
+# 🧩 Mini Games
+
+- 🧠 Memory Match
+- 🎨 Color Focus
+- ➕ Math Sprint
+- 🧩 Pattern Recall
+- ⚡ Reaction Tap
+
+---
+
+# 📱 Screens
+
+- Introduction
+- Login
+- Sign Up
+- Home Dashboard
+- Statistics
+- Challenge
+- Focus Session
+- Profile
+- Settings
+
+---
+
+# 🏗 System Architecture
+
+```
+User
+   │
+   ▼
+Flutter Mobile App
+   │
+   ├── Authentication
+   ├── Focus Engine
+   ├── App Usage Monitor
+   ├── Challenge Module
+   ├── Statistics Module
+   │
+   ▼
+Backend API
+   │
+   ▼
+Database
+```
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technology |
+|-----------|------------|
+| Framework | Flutter |
+| Language | Dart |
+| UI Design | Figma |
+| Version Control | Git & GitHub |
+| Database | SQLite / Firebase |
+| Backend | REST API |
+
+---
+
+# 📂 Project Structure
+
+```
 refocus/
-├── assets/                    # Aset gambar, ikon menu, lencana penghargaan, dan maskot burung hantu
+
+├── assets/
+│
 ├── lib/
-│   ├── models/
-│   │   └── app_state.dart     # Pengelola status state global (Notifier) aplikasi (Poin, XP, Aplikasi Terpilih, Notifikasi)
-│   ├── screens/
-│   │   ├── intro_screen.dart           # Halaman pengantar fitur aplikasi (Walkthrough 1-3)
-│   │   ├── login_screen.dart           # Halaman masuk akun (mendukung login Email & integrasi Google/Apple)
-│   │   ├── signup_screen.dart          # Halaman daftar akun baru (mendukung daftar Email & integrasi Google/Apple)
-│   │   ├── home_screen.dart            # Halaman utama aplikasi (statistik harian, pintasan mode fokus)
-│   │   ├── statistics_screen.dart      # Halaman analitik detail grafik batang, streak harian, dan batas aplikasi
-│   │   ├── challenge_menu_screen.dart  # Halaman daftar game produktivitas & meditasi Pomodoro
-│   │   ├── profile_screen.dart         # Halaman data diri, progres XP, lencana pencapaian, dan pengaturan
-│   │   ├── points_screen.dart          # Halaman informasi saldo poin dan riwayat transaksi poin
-│   │   └── focus_history_screen.dart   # Halaman log aktivitas riwayat fokus pengguna
-│   ├── services/
-│   │   └── auth_service.dart  # Layanan penyimpanan kredensial & verifikasi akun lokal menggunakan SharedPreferences
-│   ├── widgets/
-│   │   └── bottom_navigation.dart # Widget menu navigasi bawah dengan desain lingkar aktif biru muda
-│   └── main.dart              # Titik masuk utama aplikasi (Main entrypoint) & konfigurasi rute halaman
-├── test/
-│   └── widget_test.dart       # Pengujian unit smoke test untuk integritas kode aplikasi
-└── README.md                  # Dokumentasi proyek
+│   ├── core/
+│   ├── features/
+│   │   ├── introduction/
+│   │   ├── authentication/
+│   │   ├── home/
+│   │   ├── statistics/
+│   │   ├── challenge/
+│   │   ├── profile/
+│   │   └── settings/
+│   │
+│   ├── shared/
+│   └── main.dart
+│
+├── docs/
+│   └── ui-ux/
+│
+└── README.md
 ```
 
 ---
 
-## ⚙️ Langkah Instalasi
+# 🎨 UI/UX Documentation
 
-Pastikan komputer Anda telah terinstal **Flutter SDK** (versi ≥ 3.0.0) dan **Dart SDK**.
+The complete UX process includes:
 
-### 1. Kloning Repositori
-```bash
-git clone https://github.com/username/refocus.git
-cd refocus
-```
-
-### 2. Unduh Dependensi
-```bash
-flutter pub get
-```
-
-### 3. Jalankan Aplikasi
-* **Untuk Perangkat Android/iOS/Emulator:**
-  ```bash
-  flutter run
-  ```
-* **Untuk Versi Web (Google Chrome):**
-  ```bash
-  flutter run -d chrome
-  ```
-
-### 4. Menjalankan Tes Unit
-Untuk memastikan seluruh widget dan logika navigasi berfungsi dengan benar, jalankan perintah pengujian berikut:
-```bash
-flutter test
-```
+- UX Problem Framing
+- UX Research Plan
+- Field Observation
+- Interview Results
+- Research Findings
+- User Persona
+- Information Architecture
+- User Flow
+- Wireframe
+- Design System
+- High Fidelity Prototype
 
 ---
 
-## 🛠️ Teknologi & Library
+# 👨‍💻 Team
 
-* **Framework:** [Flutter](https://flutter.dev) (Dart)
-* **Penyimpanan Lokal:** [shared_preferences](https://pub.dev/packages/shared_preferences) untuk menyimpan database akun pengguna, sesi login, dan pengaturan secara persisten.
-* **Ikon Grafik & Kanvas:** Menggunakan *Custom Painter* native Flutter untuk menggambar diagram melingkar (*circular progress*) pada dasbor.
-
----
-
-## 📝 Lisensi
-
-Proyek ini dilisensikan di bawah *namamu aja lah* License.
+| Member | Role |
+|----------|------|
+| Erika Ayu Febrianti | UI/UX Designer |
+| Dio Lutvi Andre | Frontend Developer |
+| Sofa Chasani Wibisono | Backend & Database Developer |
 
 ---
 
-🦉 *Tetap Fokus, Kurangi Screen Time, dan Raih Produktivitas Terbaik Anda Bersama **ReFocus**!*
+# 📊 Research Summary
+
+The application was developed based on:
+
+- Observation of **28 university students**
+- Interview with **6 active social media users**
+
+### Main Findings
+
+- Most students use social media **2–6 hours/day**
+- Social media is frequently accessed while studying
+- Notifications and boredom are the biggest distraction triggers
+- Existing focus applications are considered easy to bypass
+- Users prefer strict app locking combined with gamification
 
 ---
 
-Dibuat dengan 💙 dan segelas matcha untuk membantu Anda tetap fokus.
+# 🚀 Future Development
+
+- AI-based focus recommendation
+- Personalized challenge difficulty
+- Cross-device synchronization
+- Cloud backup
+- Smart productivity analytics
+- Pomodoro integration
+- Community focus leaderboard
+
+---
+
+# 📸 Preview
+
+| Home | Statistics | Challenge |
+|------|------------|-----------|
+| *![alt text](docs/ui_design/Home.png)* | *![(Add Screenshot)](<docs/ui_design/Statistics - overview.png>)* | *![(Add Screenshot)](docs/ui_design/Challenge.png)* |
+
+
+
+---
+
+# 🔗 Project Resources
+
+## 📂 Documentation
+
+| Resource | Link |
+|----------|------|
+| 📄 Project Report | https://drive.google.com/drive/u/0/folders/1uwWlT8dPO2zyu7LdKUGf5TkN4HuQWsLX |
+| 🎨 Figma Design | https://www.figma.com/design/pYjE06a4WALc36vWhO5IFT/ReFocus_TEKMOB?node-id=0-1&p=f&t=bNNfkVHOFJzBw8a4-0 |
+| 💻 GitHub Repository | https://github.com/Refocus-Team/ReFocus/tree/main |
+| 📑 Poster (A1) | https://drive.google.com/file/d/1BsdGMQ05h-y6HfRzSxTetMxSBWjKltRl/view?usp=sharing |
+
+
+---
+
+## 📥 Google Drive
+
+The complete project documentation, including reports, posters, presentation slides, UI/UX documentation, and other supporting files can be accessed here:
+
+🔗 **https://drive.google.com/drive/u/0/folders/1uwWlT8dPO2zyu7LdKUGf5TkN4HuQWsLX**
+
+---
+
+## 🎨 Figma
+
+Explore the complete UI/UX design, design system, prototype, and user flow:
+
+🔗 **https://www.figma.com/design/pYjE06a4WALc36vWhO5IFT/ReFocus_TEKMOB?node-id=0-1&p=f&t=bNNfkVHOFJzBw8a4-0**
+
+---
+
+## 💻 Repository
+
+Source code is available on GitHub:
+
+🔗 **https://github.com/Refocus-Team/ReFocus/tree/main**
+
+🔗 **https://github.com/Refocus-Team/ReFocus/tree/finalapps**
+
+---
+
+# 📄 License
+
+This project was developed for educational purposes as part of the Mobile Application Development course at Universitas Ahmad Dahlan.
+
+---
+
+<div align="center">
+
+### ⭐ ReFocus
+
+**Focus Better, Live Better.**
+
+Made with ❤️ using Flutter
+
+</div>
